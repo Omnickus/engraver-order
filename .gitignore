@@ -1,0 +1,7 @@
+env/
+migrations/
+.vscode/
+webapp/config.py
+*__pycache__*
+.idea/
+*.db

@@ -1,0 +1,38 @@
+{% extends 'index/index.html' %}
+
+{% block content %}
+
+
+{% for list in engravers_pages.items %}
+
+    <p>{{ list.login }}</p><br>
+
+{% endfor %}
+
+<div>
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+          <li  {% if not engravers_pages.has_prev %} class="page-item disabled" {% endif %} >
+            <a class="page-link" href=" ?page={{ engravers_pages.prev_num }}" aria-label="Previous">
+              <span aria-hidden="true">&laquo;</span>
+            </a>
+          </li>
+          {% for page in engravers_pages.iter_pages() %}
+
+                <li {% if page == engravers_pages.page %} class="page-item active"  {% endif %}><a class="page-link" href="./?page={{ page }}">{{ page }}</a></li>
+
+          {% endfor %}
+          </li>
+          <li  {% if not engravers_pages.has_next %} class="page-item disabled" {% endif %} >
+            <a class="page-link disabled" href=" ?page={{ engravers_pages.next_num }}" aria-label="Previous">
+              <span aria-hidden="true">&raquo;</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+</div>
+
+
+
+
+{% endblock %}

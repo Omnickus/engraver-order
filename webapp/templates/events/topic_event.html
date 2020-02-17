@@ -1,0 +1,202 @@
+{% extends 'index/index.html' %}
+
+{% block content %}
+
+<div class="container" style="box-shadow: 0 0 4px rgba(52, 58, 64, 0.493); background-color: #fff; border-radius:10px; padding-bottom: 20px;">
+    {% if results_check_participant != None %}
+        {% if current_user.login in results_check_participant %}
+            <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#add_photo_to_event" style="float: right;" >Добавить фотографию</button>
+        {% endif %}
+    {% elif results_check_participant == None and current_user.is_authenticated %}
+            <button type="button" class="btn_registr_event" data-toggle="modal" data-target="#registr_event">Принять участие</button>
+    {% endif %}
+    {% if current_user.login == 'Omnic' %}
+        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#discription_topic" >Добавить описание</button>
+    {% endif %}
+    <p class="note" style="float: right; margin-right: 10px;"><img src="../../static/images/all_img/icon/exclamation.png"  style="float: right; width: 30px; height: 30px;"></img></p>
+    {% for topic in topic_info %}
+        <div style="width: 50%; margin:0px auto;">
+            <h5 style="text-align: center;">{{ topic_event_name }}</h5>
+            <hr>
+        </div>
+        <div class="event_topic_rule">
+            <div style="display: flex; flex-direction: column; align-items: center;">
+                <p><strong>Ограничения</strong></p>
+                <p> {{ topic.topic_event_limitations }} </p>
+            </div>
+            <div style="display: flex; flex-direction: column; align-items: center;">
+                <p><strong>Правила участия</strong><p>
+                <p>{{ topic.topic_event_rule_one }}</p>
+                <p>{{ topic.topic_event_rule_two }}</p>
+                <p>{{ topic.topic_event_rule_three }}</p>
+                <p>{{ topic.topic_event_rule_four }}</p>
+                <p>{{ topic.topic_event_rule_five }}</p>
+                <p>{{ topic.topic_event_rule_six }}</p>
+                <p>{{ topic.topic_event_rule_seven }}</p>
+                <p><small style = "display: block;">{{ topic.topic_event_prerequisites }}</small></p>
+            </div>
+        </div>
+        <hr style="display: block;">
+    {% endfor %}
+    <div class="row" style="justify-content: center; border: 0px solid red;padding: 0px !important; width: 100%; margin-left: 0px; margin-right: 0px;">
+        {% for photo in all_photo_event.items %}
+            <div class="event_photo_card" style="border: 0px solid black;">
+                <div style= "display:flex; width: 202px; height: 300xp; display: flex; flex-direction: column; justify-content: center;">
+                    <div style="position: relative; height: 197px">
+                        <div class="scroll_bar_photo_event" {% if current_user.login == photo.author_photo %} style="box-shadow: 0 0 12px rgb(253, 126, 7);" {% else %} style="box-shadow: 0 0 8px rgb(52, 58, 64);" {% endif %} >
+                            {% if photo.first_photo != '' %}
+                            <div class="wrapper_photo_event">
+                                <img class="photo_img_event" style="border-radius: 1px;" src=" {{ url_for('static', filename = 'images/events/' + '/' + number_event + '/' + photo.author_photo + '/' + photo.first_photo  ) }} ">
+                            </div>
+                            {% endif %}
+                            {% if photo.second_photo != '' %}
+                            <div class="wrapper_photo_event">
+                                <img class="photo_img_event" style="border-radius: 1px;" src=" {{ url_for('static', filename = 'images/events/' + '/' + number_event + '/' + photo.author_photo + '/' + photo.second_photo ) }} ">
+                            </div>
+                            {% endif %}
+                            {% if photo.three_photo != '' %}
+                            <div class="wrapper_photo_event">
+                                <img class="photo_img_event" style="border-radius: 1px;" src=" {{ url_for('static', filename = 'images/events/' + '/' + number_event + '/' + photo.author_photo + '/' + photo.three_photo) }} ">
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="wrapper_info_participant_event" {% if current_user.login == photo.author_photo %} style="box-shadow: 0 0 12px rgb(253, 126, 7);" {% else %} style="box-shadow: 0 0 8px rgb(52, 58, 64);" {% endif %} >
+                        <div>
+                            <small><a class="left_menu_link_first_step" href="{{ url_for('profile_engraver', login = photo.author_photo) }}"><strong style="color: rgb(255,99,71);">{{ photo.author_photo }}</strong></a></small>
+                        </div>
+                        <div>
+                            <a href="#"><img src="../../static/images/all_img/icon/like.png" style="width: 10px; height: 10px;margin-right: 7px;"></a>
+                            <a href="#"><img src="../../static/images/all_img/icon/like.png" style="width: 10px; height: 10px;margin-right: 7px;transform: rotate(180deg);"></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    <!--============================ ПЕРЕЛИСТЫВАНИЕ СТРАНИЦ С ФОТОГРАФИЯМИ ======================================-->
+    <nav aria-label="Page navigation example" style="margin-top:10%;">
+        <ul class="pagination" style="display: flex; justify-content: center;">
+          <li  {% if not all_photo_event.has_prev %} class="page-item disabled" {% endif %} >
+            <a class="page-link" href=" ?page={{ all_photo_event.prev_num }}" aria-label="Previous">
+              <span aria-hidden="true">&laquo;</span>
+            </a>
+          </li>
+          {% for page in all_photo_event.iter_pages() %}
+
+                <li {% if page == all_photo_event.page %} class="page-item active"  {% endif %}><a class="page-link" href="./{{ number_event }}?page={{ page }}">{{ page }}</a></li>
+
+          {% endfor %}
+          </li>
+          <li  {% if not all_photo_event.has_next %} class="page-item disabled" {% endif %} >
+            <a class="page-link disabled" href=" ?page={{ all_photo_event.next_num }}" aria-label="Previous">
+              <span aria-hidden="true">&raquo;</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+<!-- ============== МОДАЛЬНОЕ ОКНО ДЛЯ СОЗДАНИЯ СОБЫТИЯ ======================================= -->
+    <div class="modal fade" id="discription_topic" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content" style="box-shadow: 0 0 8px rgba(52,58,64); background: rgb(245,245,245);">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle" style="color: rgb(43, 43, 43);">Событие</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="{{ url_for('events.add_discription_to_topic_event') }} "   method="POST" >
+                        <input type="hidden" name="topic_event_name" value="{{ topic_event_name }}" class="form-control" style="width: 100%;">
+                        <input type="hidden" name="event_id" value="{{ number_event }}" class="form-control" style="width: 100%;">
+                        <p>Ограничения</p>
+                        <input type="text" name="topic_event_limitations" class="form-control" style="width: 100%;">
+                        <p>1</p>
+                        <input type="text" name="topic_event_rule_one" class="form-control" style="width: 100%;">
+                        <p>2</p>
+                        <input type="text" name="topic_event_rule_two" class="form-control" style="width: 100%;">
+                        <p>3</p>
+                        <input type="text" name="topic_event_rule_three" class="form-control" style="width: 100%;">
+                        <p>4</p>
+                        <input type="text" name="topic_event_rule_four" class="form-control" style="width: 100%;">
+                        <p>5</p>
+                        <input type="text" name="topic_event_rule_five" class="form-control" style="width: 100%;">
+                        <p>6</p>
+                        <input type="text" name="topic_event_rule_six" class="form-control" style="width: 100%;">
+                        <p>7</p>
+                        <input type="text" name="topic_event_rule_seven" class="form-control" style="width: 100%;">
+                        <p>напутствие</p>
+                        <input type="text" name="topic_event_rule_two" class="form-control" style="width: 100%;">
+                        <p>Напишите подробно об этом событии</p>
+                        <textarea name="topic_event_prerequisites" class="text_area_comment_profile_engraver" id="abouthimseflprofile" style="min-height:150px;" placeholder="Вводить здесь"></textarea>
+                        <input type="hidden" name="topic_event_author" value="{{ current_user.login }}">
+                        <input type="submit" value="Создать событие" style="float: right;" class= "btn btn-primary">
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--====================== МОДАЛЬНОЕ ОКНО ДЛЯ ДОБАВЛЕНИЯ ФОТОГРАФИЙ ======================================-->
+    <div class="modal fade" id="add_photo_to_event" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content" style="box-shadow: 0 0 8px rgba(52,58,64); background: rgb(245,245,245);">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle" style="color: rgb(43, 43, 43);">Событие</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="{{ url_for('add_photo_to_event') }}" method='post' enctype= 'multipart/form-data' style="justify-content: space-between; width: 100%;">
+                        <div style="display: flex; flex-direction: column;">
+                            <input type="file" name='file' value="photo_in_event_gallary" style="float: left;">
+                            <input type="hidden" value=" {{topic_event_name}} " name="topic_event_name">
+                            <input type="hidden" value=" {{number_event}} " name="topic_event_id">
+                            <input type='hidden'value="{{current_user.login}}" name = "author_photo" >
+                            <small>Первая фотография</small>
+                            <input type="radio" name="number_photo" value="first_photo" checked style="display: inline-block;">
+                            <small>Вторая фотография</small>
+                            <input type="radio" name="number_photo" value="second_photo" style="display: inline-block;">
+                            <small>Третья фотография</small>
+                            <input type="radio" name="number_photo" value="three_photo" style="display: inline-block;">
+                            <input type='submit' value='Загрузить фото'>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--====================== МОДАЛЬНОЕ ОКНО ДЛЯ РЕГИСТРАЦИИ НА ИВЕНТ ======================================-->
+    <div class="modal fade" id="registr_event" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content" style="box-shadow: 0 0 8px rgba(52,58,64); background: rgb(245,245,245);">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle" style="color: rgb(43, 43, 43);">Событие</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="{{ url_for('events.registr_on_event') }}" method='post' style="justify-content: space-between; width: 100%;">
+                        <input type="hidden" value="{{ topic_event_name }}" name ="topic_event_name">
+                        <input type="hidden" value="{{ number_event }}" name ="event_id">
+                        <div style="display: flex; flex-direction: column;">
+                            <p>Нажимая на кнопку "принять участие", вы сможете добавлять фотографии своих работ, которые будут участвовать в конкурсе.</p>
+                        </div>
+                        <input type="submit" value="Принять участие">
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

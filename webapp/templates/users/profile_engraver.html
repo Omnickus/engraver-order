@@ -1,0 +1,214 @@
+{% extends 'index/index.html' %}
+
+
+{% block content %}
+
+<!--div class="block_profile_engraver">  -->
+<div class="container" style="margin-top:0px; border: 0px solid black; margin:0px !important; padding:0px !important; background-color: rgba(245, 245, 245, 0);" >
+    {% for info_user in info %}
+        <div style="width:100%;padding-left: 0px;padding-right: 0px;padding-bottom: 0px; background-color: rgba(53, 216, 140, 0); margin-top: 0px;">
+            <div class="col media_width block_info_engraver_screen" style="border: 0px solid rgba(95, 121, 146, 0.699); width: 100%;display: flex; justify-content: space-between; margin: 0px auto; margin: 0px;padding: 0px !important">
+                <div class="row" style="box-shadow: 0 0 4px rgba(52, 58, 64, 0.493); margin: 0px !important; background-color: rgb(255, 255, 255); border-radius: 10px; padding: 10px;max-height: 220px;">
+                    <div class="div_avatar_profile_engraver" style="border:0px solid rgb(153, 0, 145);background-color: rgb(255,255,255);">
+                        <img class="avatar_profile_engraver" src= "{{ url_for('static', filename = 'images/main_page_profile_engraver_avatar/' + info_user.login + '/' + info_user.images)  }} ">
+                        <div class="block_form_engraver" style="border:0px solid green;">
+                            {% if current_user.login == user_name %}
+                                <div class="form_download_hidden">
+                                    <form action="{{ url_for('upload_file') }}" method='post' enctype= 'multipart/form-data' class="form_engraver_download">
+                                        <input type="file" name='file' value="Avatar" id='avatar_input_file'>
+                                        <input type='submit' value='Загрузить' class="engraver_input_avatar">
+                                    </form>
+                                    <form action="{{ url_for('delete_avatar') }}" method ='post'>
+                                        <input type="submit" value="Удалить" class="engraver_input_avatar">
+                                    </form>
+                                </div>
+                            {% endif %}
+                            <!--<div  style="width: 200px; padding-top: 30%;">Удалить анкету</div> -->
+                        </div>
+                    </div>
+                </div>
+                <div class="col-8 media_width media_width_profile_ipad" style=" padding: 10px; background-color: rgb(255,255,255); border-radius: 10px;box-shadow: 0 0 4px rgba(52, 58, 64, 0.493);">
+                    <!-- Button trigger modal кнопка модального окна дополнительной информации-->
+                    <h5 style="text-align: center;">Анкета</h5>
+                    <hr>
+                    {% if current_user.is_authenticated and  current_user.login == user_name %}
+                        <button type="button"  class="dop_info_profile_button" data-toggle="modal" data-target="#exampleModal" style="float: right;"><div> <img class="icon_profile" src="../../static/images/all_img/icon/45802.png"> </div></button>
+                    {% endif %}
+                    <div class="block_info_engraver"><p class="text_about_engraver"><span>Логин:</span>&nbsp;{{ info_user.login }}</p></div>
+                    <div class="block_info_engraver"><p class="text_about_engraver"><span>Имя:</span>&nbsp;{{ info_user.first_name }}</p></div>
+                    <div class="block_info_engraver"><p class="text_about_engraver"><span>Фамилия:</span>&nbsp;{{ info_user.second_name }}</p></div>
+                    <div class="block_info_engraver"><p class="text_about_engraver"><span>Почта:</span>&nbsp;{{ info_user.email }}</p></div>
+        {% endfor %}
+        <!-- ЗДЕСЬ ВЫВОДИТСЯ ДОПОЛНИТЕЛЬНАЯ ИНФОРМАЦИЯ ПО УЧАСТНИКУ -->
+        {% for dop_info in dop_info %}
+                    {% if dop_info.city != None %}<div class="block_info_engraver"><p class="text_about_engraver"><span>Город:</span>&nbsp; {{ dop_info.city }}</p>{% if current_user.login == user_name %}<a href="{{ url_for('delete_info_into_profile', info_delete = 'city' ) }}"><img src="../../static/images/all_img/icon/delete_1.png" style="width: 10px; height: 10px;margin-left: 5px;" ></a>{% endif %}</div> {% endif %}
+                    {% if dop_info.region != None %}<div class="block_info_engraver"><p class="text_about_engraver"><span>Регион:</span>&nbsp; {{ dop_info.region }} </p>{% if current_user.login == user_name %}<a href="{{ url_for('delete_info_into_profile', info_delete = 'region' ) }}"><img src="../../static/images/all_img/icon/delete_1.png" style="width: 10px; height: 10px;margin-left: 5px;" ></a>{% endif %}</div> {% endif %}
+                    {% if dop_info.brifdate != None %}<div class="block_info_engraver"><p class="text_about_engraver"><span>Возраст:</span>&nbsp;{{ dop_info.brifdate }} </p>{% if current_user.login == user_name %}<a href="{{ url_for('delete_info_into_profile', info_delete = 'brifdate' ) }}"><img src="../../static/images/all_img/icon/delete_1.png" style="width: 10px; height: 10px;margin-left: 5px;" ></a>{% endif %}</div> {% endif %}
+                    {% if dop_info.work_profile != None %}<div class="block_info_engraver"><p class="text_about_engraver"><span>Профиль работ:</span>&nbsp; {{ dop_info.work_profile }} </p> {% if current_user  .login == user_name %}<a href="{{ url_for('delete_info_into_profile', info_delete = 'work_profile' ) }}"><img src="../../static/images/all_img/icon/delete_1.png" style="width: 10px; height: 10px;margin-left: 5px;" ></a>{% endif %}</div> {% endif %}
+                    {% if dop_info.experience != None %}<div class="block_info_engraver"><p class="text_about_engraver"><span>Опыт работы:</span>&nbsp;{{ dop_info.experience }}</p> {% if current_user.login == user_name %}<a href="{{ url_for('delete_info_into_profile', info_delete = 'experience' ) }}"><img src="../../static/images/all_img/icon/delete_1.png" style="width: 10px; height: 10px;margin-left: 5px;" ></a>{% endif %}</div> {% endif %}
+                    {% if dop_info.link_you_tube != None %}<div class="block_info_engraver"><p class="text_about_engraver"> <span>Ссылка на YouTube:</span> &nbsp;</p> <a href="//www.{{ dop_info.link_you_tube }} " class="main_page_login_engraver_link">{{ dop_info.link_you_tube }}</a>{% if current_user.login == user_name %}<a href="{{ url_for('delete_info_into_profile', info_delete = 'link_you_tube' ) }}"><img src="../../static/images/all_img/icon/delete_1.png" style="width: 10px; height: 10px;margin-left: 5px;" ></a>{% endif %}</div> {% endif %}
+                    {% if dop_info.link_you_instagram != None %}<div class="block_info_engraver"><p class="text_about_engraver"><span>Ссылка на Instagram:</span> &nbsp;</p><a href="http://www.{{ dop_info.link_you_instagram }}" class="main_page_login_engraver_link">{{ dop_info.link_you_instagram }}</a>{% if current_user.login == user_name %}<a href="{{ url_for('delete_info_into_profile', info_delete = 'link_you_instagram' ) }}"><img src="../../static/images/all_img/icon/delete_1.png" style="width: 10px; height: 10px;margin-left: 5px;" ></a>{% endif %}</div> {% endif %}
+                    {% if dop_info.link_you_vkontakte != None %}<div class="block_info_engraver"><p class="text_about_engraver"><span>Ссылка на Вконтакте:</span>&nbsp;</p><a href="http://www.{{ dop_info.link_you_vkontakte }}" class="main_page_login_engraver_link"> {{ dop_info.link_you_vkontakte }} </a>{% if current_user.login == user_name %}<a href="{{ url_for('delete_info_into_profile', info_delete = 'link_you_vkontakte' ) }}"><img src="../../static/images/all_img/icon/delete_1.png" style="width: 10px; height: 10px;margin-left: 5px;" ></a>{% endif %}</div> {% endif %}
+                    {% if dop_info.about_himsefl_profile != None %}<div class="block_info_engraver"><p class="text_about_engraver"><span>Обо мне:</span>&nbsp; {{ dop_info.about_himsefl_profile }} </p>{% if current_user.login == user_name %}<a href="{{ url_for('delete_info_into_profile', info_delete = 'about_himsefl_profile' ) }}"><img src="../../static/images/all_img/icon/delete_1.png" style="width: 10px; height: 10px;margin-left: 5px;" ></a>{% endif %}</div> {% endif %}
+        {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div style="box-shadow: 0 0 4px rgba(52, 58, 64, 0.493); margin: 0px; padding: 10px; background-color: rgb(255,255,255); border-radius: 10px; margin-top: 20px !important;">
+            <div style="justify-content: center; display: flex;">
+                <h5>Отзывы</h5>
+            </div>
+            <!--ПОЛЕ ГДЕ ОТОБРАЖАЮТСЯ КОММЕНТАРИИ-->
+            <hr>
+            <div class="col-12 scroll-block" style="border: 0px solid rgba(95, 121, 146, 0.699);">
+                {% for comment in comments %}
+                    <div class="row" style="justify-content: space-between; margin:2px auto; width: 100%;border: 0px solid rgb(133, 68, 68); align-items: center; background-color: rgb(255,255,255); padding:2px; border-radius: 3px;">
+                        <div class="col-8 wrapper_comment_media" style="border: 0px solid red;">
+                            <div style="border: 0px solid black;">
+                                <p class="profile_engraver_comment"> {{ comment.text }} </p>
+                            </div>
+                        </div>
+                        <div class="col-4 wrapper_comment_media" style="border:0px solid black;">
+                            <p class="profile_engraver_comment" style="float: right;">
+                                {% if current_user.login == user_name %}
+                                    <a href=" {{ url_for('delete_comment', comment_id = comment.id, user_name = user_name ) }} " method = 'POST'><img src="../../static/images/all_img/icon/delete_1.png" style="width: 10px;" ></a> 
+                                {% endif %}
+                                {{ comment.created.strftime('%d.%m.%Y') }} <a class="link_hover" href=" {{ url_for('profile_engraver', login = comment.user) }} ">{{ comment.user }} </a></p>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <!--ОТПРАВКА КОММЕНТАРИЯ-->
+            <div class="row" style="width:100%;margin:0px auto;background-color: rgba(231, 203, 79, 0);margin-bottom: 30px;">
+                <form action="{{ url_for('add_comment') }} " method="post" class="form_comment_profile_engraver">
+                        <textarea name="text" required placeholder='Вы можете оставить свой отзыв' class="text_area_comment_profile_engraver"></textarea>
+                        <input type="hidden" name = 'author_engraver' value="{{ current_user.login }}">
+                        <input type="hidden" name = 'recipient_engraver' value="{{ user_name }}">
+                        <input style="float: right;" class="qwe" type="submit" value="Отправить">
+                </form>
+            </div>
+        </div>
+        <!--ГАЛЛЕРЕЯ-->
+        <div style=" background-color: #fff; border-radius: 10px;box-shadow: 0 0 4px rgba(52, 58, 64, 0.493);margin-top: 20px;">
+            <div>
+                {% if current_user.login == user_name %}
+                    <button type="button"  class="dop_info_profile_button" data-toggle="modal" data-target="#download_photo_to_gallary" style="float: right;margin-top: 5px;margin-right: 10px;"><div> <img class="icon_profile" src="../../static/images/all_img/icon/download_photo_to_gallary_profile_engraver.png"> </div></button>
+                {% endif %}
+                <h5 style="text-align:center; padding-top:10px;">Галерея</h5>
+                <hr>
+            </div>
+            <div style=" display: flex; flex-direction: row; padding:2px; justify-content: space-between;">
+                <div class="profile_engraver_gallary_onclick">
+                    <a href=" ?page={{ gallary.prev_num }}" ><img src="../../static/images/all_img/icon/61880.png" class="profile_engraver_gallary_onclick_link"></a>
+                </div>
+                <div class="row" style="justify-content: center; border: 0px solid red;padding: 0px !important; width: 95% !important;">
+                    {% for photo in gallary.items %}
+                        <div style=" padding: 3px !important;" class="wrapper_img_profile_engraver">
+                                    <img class="img_profile_engraver" src="{{ url_for('static', filename = 'images/main_page_profile_engraver_avatar/' + user_name + '/' + 'gallary' + '/' + photo.name_photo  ) }} " alt="Card image cap">
+                            {% if current_user.login == user_name %} 
+                                <form action="{{ url_for('photo_del') }}" method ='post'>
+                                    <input type="hidden" value= "{{ photo.name_photo }}"  name = "del">
+                                    <input type="submit" value="Удалить" class="del_photo">
+                                </form>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="profile_engraver_gallary_onclick">
+                    <a href=" ?page={{ gallary.next_num }}"><img src="../../static/images/all_img/icon/61880-2.png" class="profile_engraver_gallary_onclick_link"></a>
+                </div>
+            </div>
+        </div>
+        <!--===========================Всплывающее модальное окно для загрузки фотографий в галлерею=================================-->
+        <div class="modal fade" id="download_photo_to_gallary" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Добавить фото</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="{{ url_for('add_photo_in_gallary') }}" method='post' enctype= 'multipart/form-data' style="justify-content: space-between; width: 100%; display: flex;">
+                            <input type="file" name='file' value="Avatar">
+                            <input type='submit' value='Загрузить фото'>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--===================================== Modal всплывающее окно дополнительной информации ==============================================-->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Дополнительная информация</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="{{ url_for('add_info_into_prifile') }}"   method="POST">
+                            <label for="city_profile">Город</label><br><small>Если вы живете не в городе, лучше укажите ближайший город. Так будет проще вас найти в поиске.</small>
+                                <input type="text" name="city" class="form-control" id="city_profile" style="width: 100%;">
+                            <label for="region_profile">Область</label>
+                                <input type="text" name="region" class="form-control" id="region_profile" style="width: 100%;">
+                            <label for="brifdate_profile">Дата рождения</label>
+                                <input type="date" name="brifdate" class="form-control" id="brifdate_profile" style="width: 100%;">
+                            <label for="work_profile">Профиль работ</label><br><small> (например: дерево, кожа, металл и т.д) </small>
+                                <input type="text" name="work_profile" class="form-control" id="work_profile" style="width: 100%;">
+                            <label for="experience">Опыт работы</label>
+                                <input type="text" name="experience" class="form-control" id="experience" style="width: 100%;">
+                            <label for="link_you_tube">Ссылка на YouTube</label>
+                                <input type="text" name="link_you_tube" class="form-control" id="link_you_tube" style="width: 100%;">
+                            <label for="link_you_instagram">Ссылка на Instagram</label>
+                                <input type="text" name="link_you_instagram" class="form-control" id="link_you_instagram" style="width: 100%;">
+                            <label for="link_you_vkontakte">Ссылка на VKontakte</label>
+                                <input type="text" name="link_you_vkontakte" class="form-control" id="link_you_vkontakte" style="width: 100%;">
+                            <label for="abouthimseflprofile">Можете рассказать немного о себе</label>
+                                <textarea name="about_himsefl_profile" class="text_area_comment_profile_engraver" id="abouthimseflprofile" style="min-height:150px;" placeholder="Вводить здесь"></textarea>
+                            <input type="submit" value="Сохранить" style="float: right;" class= "btn btn-primary">
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+        <!--
+        <div style="border: 1px solid black;">
+            <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                <li  {% if not gallary.has_prev %} class="page-item disabled" {% endif %} >
+                    <a class="page-link" href=" ?page={{ gallary.prev_num }}" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                {% for page in gallary.iter_pages() %}
+        
+                        <li {% if page == gallary.page %} class="page-item active"  {% endif %}><a class="page-link" href="./?page={{ page }}">{{ page }}</a></li>
+        
+                {% endfor %}
+                </li>
+                <li  {% if not gallary.has_next %} class="page-item disabled" {% endif %} >
+                    <a class="page-link disabled"  aria-label="Previous">
+                    <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+                </ul>
+            <nav>
+        </div>
+        -->
+</div>
+
+
+{% endblock %}

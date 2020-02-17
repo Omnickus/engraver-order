@@ -1,0 +1,99 @@
+{% extends 'index/index.html' %}
+
+{% block content %}
+
+<div class="col-12 topic_discuss_media" style="background-color: #fff;box-shadow: 0 0 4px rgba(52, 58, 64, 0.493); border-radius: 10px;padding-bottom: 10px;padding-right: 0px !important;padding-left: 0px !important;">
+    <div>
+        <div style="align-items: center; border: 0px solid black;">
+            <h4 style='text-align: center;'>  {{ topic_discuss.name_discuss }} </h4>
+        </div>
+        <hr>
+        {% for comment in comment_discussion %}
+        <div class=" row-12 sms_topic_of_discuss wrapper_left_menu_link_first_step" style="border: 0px solid black; margin: 0px auto; margin-top:5px;">
+            <div style="display: flex; align-items: center;">
+                <div style="display: flex;">
+                    {% if comment.like_up == None %}
+                        <smal>0</smal>
+                    {% else %}
+                    <smal>{{comment.like_up}}</smal>
+                    {% endif %}
+                        <a href="{{url_for('discussions.add_like_to_discussion',topic_id = comment.discuss_id, id = comment.id, like = 'like_up', way = 1020) }}"><img src="../../static/images/all_img/icon/like.png" style="width: 10px; height: 10px;margin-right: 7px;"></a>
+                </div>
+                <div style="display: flex;">
+                    {% if comment.like_down == None %}
+                        <smal>0</smal>
+                    {% else %}
+                        <smal>{{comment.like_down}}</smal>
+                    {% endif %}
+                    <a href="{{url_for('discussions.add_like_to_discussion',topic_id = comment.discuss_id, id = comment.id, like = 'like_down', way = 1020) }}"><img src="../../static/images/all_img/icon/like.png" style="width: 10px; height: 10px;margin-right: 7px;transform: rotate(180deg);"></a>
+                </div>
+            </div>
+            <div style="padding: 0px; width: 70%; align-items: center; display: flex;">
+                <p style="font-size:0.9em;padding: 0px; margin:0px;">{{ comment.text }} </p>
+            </div>
+            <div style="width: 30%;">
+                <div class="profile_engraver_comment">
+                    {% if current_user.login == comment.user_login %}
+                        <a href="{{ url_for('discussions.delete_comment_of_discussion', id_comment = comment.id, discuss_id = comment.discuss_id )}} " method = "GET"><img src="../../static/images/all_img/icon/84462.png" style="width: 10px;"></a> 
+                    {% endif %} 
+                    <small>{{ comment.discuss_comment_created.strftime('%d.%m.%Y') }} </small>
+                    <a href="{{ url_for('profile_engraver', login = comment.user_login) }} " class="link_discuss_topic"> {{ comment.user_login }} </a>
+                </div>
+            </div>
+        </div>
+        <div class="second_line_comment">
+            {% for i in comment_in_comments %}
+                {% if i[1] == comment.id %}
+                <hr style="width: 90%; margin: 2px auto;">
+                    <div style="display: flex; flex-direction: row; margin-left: 50px;">
+                        <div style="display: flex;">
+                            {% if i[5] == None %}
+                                <small>0</small>
+                            {% else %}
+                                <small>{{i[5]}}</small>
+                            {% endif %}
+                            <a href="{{url_for('discussions.add_like_to_discussion',topic_id = comment.discuss_id, id = i[0], like = 'like_up', way = 1030) }}"><img src="../../static/images/all_img/icon/like.png" style="width: 10px; height: 10px;margin-right: 7px;"></a>
+                            {% if i[6] == None %}
+                                <small>0</small>
+                            {% else %}
+                                <small>{{i[6]}}</small>
+                            {% endif %}
+                            <a href="{{url_for('discussions.add_like_to_discussion',topic_id = comment.discuss_id, id = i[0], like = 'like_down', way = 1030) }}"><img src="../../static/images/all_img/icon/like.png" style="width: 10px; height: 10px;margin-right: 7px;transform: rotate(180deg);"></a>
+                        </div>
+                        <div style="display: flex; flex-direction: column;width: 85%;">
+                            <div>
+                                <small>{{i[2]}}</small>
+                            </div>
+                            <div>
+                                <small style="font-size: 10px;">{{i[3]}}</small>
+                                <small style="border-left: 1px solid rgb(145, 80, 60);padding-left: 5px;"><a href="{{ url_for('profile_engraver', login = i[4]) }} " class="link_on_profile_topick_discuss"><strong>{{i[4]}}</strong></a></small>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+        <div style="border:0px solid black">
+            <div>
+                <form action=" {{ url_for('discussions.add_comment_to_comment') }}" method="POST" class="form_comment_topic_discuss">
+                    <textarea class="text_area_comment_discuss" type="text" name="comment_text_to_comment" required placeholder='Прокоментировать запись' style="width:100%;"></textarea>
+                    <input type="hidden" name="comment_id" value="{{ comment.id }}">
+                    <input type="hidden" name="id_discuss" value="{{ topic_discuss.id }}">
+                    <button type="submit" class="button_discuss_comment"><strong>Отправить</strong></button>
+                </form>
+            </div>
+        </div>
+        {% endfor %}
+        <hr>
+        <div>
+            <form action="{{ url_for('discussions.add_comment_to_discussion') }} " method="post" style="width: 95%;display: flex; margin:0px auto;">
+                <textarea name="text" required placeholder='Ваш комментарий' class="text_area_comment_discuss"></textarea>
+                <input type="hidden" name = 'author_comment' value="{{ current_user.login }}">
+                <input type="hidden" name = 'id_discuss' value="{{ topic_discuss.id }}">
+                <button style="float: right;" class="button_discuss_comment" {% if not current_user.is_authenticated %} disabled {% endif %} type="submit">Отправить</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

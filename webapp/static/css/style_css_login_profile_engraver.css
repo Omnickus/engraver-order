@@ -1,0 +1,27 @@
+.login_block_profile_engraver{
+    width: 65%;
+    border:1px solid black;
+}
+
+.login_wrapper_profile_engraver{
+    width: 90%;
+    border: 1px solid black;
+    display: flex;
+    margin:0px auto
+}
+
+.form_authorization {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group-authorization {
+    display: flex;
+    flex-direction: row;
+}
+
+.authorization {
+    border:1px solid black;
+    width:100%;
+}
+

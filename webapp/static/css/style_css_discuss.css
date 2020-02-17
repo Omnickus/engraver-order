@@ -1,0 +1,86 @@
+.link_discuss_topic {
+    text-decoration: none !important;
+    color: rgb(52,58,64);
+    margin: 0px !important;
+}
+.link_discuss_topic:hover {
+    color: rgb(0, 0, 0);
+}
+.time_discuss_text {
+    font-size: 12px;
+}
+.wrapper_discuss {
+    margin: 0px !important;
+    padding: 0px !important;
+    align-items: center;
+}
+
+.wrapper_discuss:hover {
+    background-image: linear-gradient(to right, rgba(255, 145, 77, 0.781) 5%, rgb(245,245,245) 70%);
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
+.sms_topic_of_discuss {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+}
+
+.discuss_phone {
+    display: flex;
+    flex-direction: row;
+}
+
+.background_hover {
+    display: flex; 
+    justify-content: space-between;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.background_hover:hover {
+    box-shadow: -15px 0px 0px 0px rgb(251,191,87);
+    background-image: linear-gradient(to right, rgb(251,191,87), rgb(245,245,245));
+}
+
+.form_comment_topic_discuss {
+    display: flex;
+    margin: 0px auto;
+    width: 80%;
+}
+
+.text_area_comment_discuss {
+    height: 45px;
+    width: 100%;
+    resize: none;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    outline: none;
+    padding: 5px;
+    font-size: 12px;
+}
+.text_area_comment_discuss:hover {
+    border: 1px solid rgb(254,168,133);
+}
+.text_area_comment_discuss:focus {
+    border: 1px solid rgb(254,168,133);
+}
+
+.second_line_comment {
+    display: flex;
+    flex-direction: column;
+}
+.button_discuss_comment {
+    border: 0px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    font-size: 12px;
+    background-color: rgba(255, 123, 70, 0.653);
+    color: #fff;
+    padding: 3px;
+}
+.link_on_profile_topick_discuss {
+    text-decoration: none;
+    color: tomato;
+}

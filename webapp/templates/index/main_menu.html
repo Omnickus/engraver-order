@@ -1,0 +1,70 @@
+
+
+{% block main_menu %}
+<!--
+<div class="main_block">
+    <div class="wrapper_menu">
+        <div class="block_menu_left">
+            <a href="/" class="menu_link">Главное меню</a>
+            {% if current_user.is_authenticated %}
+                <a href="{{ url_for('profile_engraver', login = current_user.login) }}" class="menu_link">Моя анкета</a>
+            {% endif %}
+        </div>
+        <div class="block_menu_right">
+            {% if not current_user.is_authenticated %}
+                <a href="/registartion" class="menu_link">Регистрация</a>
+                <a href="/login" class="menu_link login">Логин</a>
+            {% endif %}
+            <a href="/logout" class="menu_link">Выйти</a>
+        </div>
+    </div>
+</div>
+-->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <ul class="navbar-nav mr-auto"  style="width: 1144px; margin: 0px auto;">
+    <li class="nav-item active">
+      <div>
+        <a class="navbar-brand" href="/" style="display: flex; justify-content: center;">Главное меню</a>
+      </div>
+    </li>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+            {% if current_user.is_authenticated %}
+              <div class="link_menu_with_icon">
+                <img class ="icon_menu" src="../../static/images/all_img/icon/33750.png">
+                <a class="nav-link" href="{{ url_for('profile_engraver', login = current_user.login) }}">Моя анкета <span class="sr-only">(current)</span></a>
+              </div>
+            {% endif %}
+        </li>
+    {% if not current_user.is_authenticated %}
+        <li class="nav-item dropdown" style="display: flex; flex-direction: row;">
+            <a class="nav-link dropdown-toggle link_menu_with_icon" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <img class ="icon_menu" src="../../static/images/all_img/icon/18057.png">
+                Логин
+            </a>
+    {% endif %}
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="/registartion">Регистрация</a>
+            <a class="dropdown-item" href="/login">Авторизация</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#"></a>
+          </div>
+        </li>
+      {% if current_user.is_authenticated %}
+        <li class="nav-item">
+          <div class="link_menu_with_icon">
+            <img class ="icon_menu" src="../../static/images/all_img/icon/21766.png">
+            <a class="nav-link" href="/logout">Выйти</a>
+          </div>
+        </li>
+      {% endif %}
+      </ul>
+    </div>
+  </nav>
+
+{% endblock %}

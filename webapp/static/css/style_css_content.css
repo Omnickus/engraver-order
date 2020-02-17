@@ -1,0 +1,156 @@
+/* ====================== РАЗДЕЛ СОБЫТИЯ НА ГЛАВНОЙ СТРАНИЦЕ ============================== */
+
+.event_card {
+    display: block;
+    width: 200px;
+    float: left;
+    margin: 15px 28px; 
+}
+.event_card:hover {
+    transform: scale(1.05);
+}
+.card_link {
+    text-decoration: none;
+    color: rgb(216, 161, 59)
+}
+.card_link:hover {
+    text-decoration: none;
+    color: orange;
+}
+
+.event_topic_rule {
+    border: 0px solid black;
+    width: 90%;
+    margin: 0px auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+}
+
+.event_topic_rule p {
+    line-height: 0.8em;
+    font-size: 0.8em;
+}
+.slider-turn {
+    width: 10px;
+    height: 10px;
+}
+
+.slider_event::-webkit-scrollbar-track {border-radius: 2px;}
+.slider_event::-webkit-scrollbar {width: 0px;}
+.slider_event::-webkit-scrollbar-thumb {border-radius: 2px;background: #f0f2f5;}
+.slider_event:hover::-webkit-scrollbar-thumb {background: #6a7d9b;}
+
+
+
+/*===================== СЛАЙДЕР НА ГЛАВНОЙ СТРАНИЦЕ ИВЕНТА ==========================*/
+
+.slider_button {
+    background: none;
+    border: none;
+    height: 100%;
+    margin: 5px;
+}
+.slider_button:active {
+    border: none;
+}
+
+#polosa {
+    border: 2px solid red;
+	width: 1200px;
+	position: relative;
+	transition: all ease 1s;
+    left: 0;
+    display: flex;
+}
+
+#polosa img {
+	float: left;
+}
+
+#polosa::after {
+	content: "";
+	display: block;
+	clear: both;
+}
+/*============================== EVENT PHOTO CARD =================================*/
+
+.event_photo_card {
+    border:2px solid blue;
+    display: block;
+    width: 200px;
+    float: left;
+    margin-left: 21px;
+    margin-right: 21px;
+    transition: 0.2s;
+    margin-top:10px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+}
+.event_photo_card:hover {
+    transform: scale(1.1);
+}
+
+.photo_img_event {
+    width: 100%;
+    min-height: 100px;
+    max-height: 202px;
+}
+
+.btn_registr_event {
+    float: right;
+    background-color: rgba(43, 160, 76, 0.673);
+    font-size: 0.9em;
+    padding: 4px;
+    color: #fff;
+    border-radius: 3px;
+    border: none;
+}
+
+.scroll_bar_photo_event {
+    position: absolute;
+    width: 202px;
+    height: 200px; 
+    border: 0px solid black; 
+    flex-direction: column; 
+    overflow-y: scroll;
+    border-radius: 7px;
+}
+.wrapper_photo_event {
+    height: 202px;
+    align-items: center; 
+    display: flex;
+}
+
+.scroll_bar_photo_event::-webkit-scrollbar-track {border-radius: 2px;}
+.scroll_bar_photo_event::-webkit-scrollbar {width: 0px;}
+.scroll_bar_photo_event::-webkit-scrollbar-thumb {border-radius: 2px;background: #f0f2f5;}
+.scroll_bar_photo_event:hover::-webkit-scrollbar-thumb {background: #6a7d9b;}
+
+.wrapper_info_participant_event {
+    display: flex;
+    justify-content: space-between;
+    width: 202px; 
+    height: 30px;
+    margin-top: 15px; 
+    box-shadow: 0 0 4px rgba(52, 58, 64, 0.493); 
+    border-radius: 5px;
+}
+
+.note {
+    display: inline-block; /* Строчно-блочный элемент */
+    position: relative; /* Относительное позиционирование */
+}
+.note:hover::after {
+    content: 'Фотографии обрезаются до равых соотношений сторон. Фокусируйте работу по центру.'; /* Выводим текст */
+    position: absolute; /* Абсолютное позиционирование */
+    left: -120px; top: 30%; /* Положение подсказки */
+    z-index: 1; /* Отображаем подсказку поверх других элементов */
+    background: rgba(255,255,230,0.9); /* Полупрозрачный цвет фона */
+    font-family: Arial, sans-serif; /* Гарнитура шрифта */
+    font-size: 11px; /* Размер текста подсказки */
+    padding: 5px 10px; /* Поля */
+    border: 1px solid #333; /* Параметры рамки */
+    width:150px;
+}

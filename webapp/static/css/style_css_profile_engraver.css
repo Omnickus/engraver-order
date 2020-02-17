@@ -1,0 +1,409 @@
+.link_author {
+    text-decoration: none;
+    color:rgb(43,26,26);
+    font-size: 1.1em;
+}
+
+.block_profile_engraver {
+    position: relative;
+    display: flex;
+    justify-content: space-around;
+    width: 65%;
+    flex-direction: column;
+    border: 0px solid rgba(43,26,26);
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.23);
+    padding:0px;
+    background: rgb(238, 236, 236);
+}
+.wrapper_profile_engraver {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    border: 0px solid rgba(43,26,26);
+}
+.block_engraver_left {
+    width: 320px;
+    display: flex;
+    position: relative;
+    border: 1px solid black;
+}
+.form_engraver_download {
+    position: relative;
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    align-items: left;
+}
+.engraver_input_avatar {
+    display: flex;
+    position: relative;
+    width:25%;
+}
+
+.block_engraver_right {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    border: 1px solid black;
+}
+
+.block_text_engraver {
+    text-align: left;
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+}
+
+.block_info_engraver {
+    display: flex;
+    flex-direction: row;
+    border: 0px solid black;
+    align-items: center;
+}
+
+.div_avatar_profile_engraver {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    border:0px solid black;
+}
+
+.form_download_hidden {
+    position: relative;
+    opacity: 0.001;
+    border: 0px solid black;
+}
+.form_download_hidden:hover {
+    opacity: 1;
+}
+
+.avatar_profile_engraver {
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    position: absolute;
+    opacity: 1;
+}
+
+.block_engraver_avatar {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+.block_form_engraver {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    border:0px solid black;
+    width: 295px;
+}
+.block_engraver_download_avatar {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+.form_comment_profile_engraver {
+    margin:0px auto;
+    width: 98%;
+    padding: 0px;
+    background-color: #CCE4F7 transparent;
+    display: flex;
+    flex-direction: row;
+}
+.form_comment_profile_engraver input[type="submit"] {
+    background-color: rgb(110, 163, 118);
+    border: none;
+    text-decoration: none;
+    color: white;
+    cursor: pointer;
+    padding: 3px;
+    border-radius: 10px;
+}
+.form_comment_profile_engraver input[type="submit"]:hover {
+    background-color: rgb(107, 182, 119);
+}
+
+.text_about_engraver {
+    line-height: 0.7em;
+    font-size: 1em;
+    border: 0px solid black;
+    padding:5px;
+    margin: 0px;
+}
+.block_info_engraver a {
+    line-height: 0.7em;
+    font-size: 1em;
+    border: 0px solid black;
+    padding:0px;
+    margin: 0px;
+}
+.text_area_comment_profile_engraver {
+    width:100%;
+    resize: none;
+    border-radius: 10px;
+    outline: none;
+    padding: 5px;
+    border: 2px solid rgb(115, 212, 128);
+}
+.text_area_comment_profile_engraver:focus {
+    border: 2px solid rgb(115, 212, 128);
+}
+
+.text_area_comment_written {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    flex-direction: column;
+}
+
+.wrapper_text_area_comment_written {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.block_message_engraver_profile {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    border: 0px solid black;
+    background-color: rgba(251,249,249);
+}
+
+.wrapper_message_profile_engraver {
+    display: flex;
+    flex-direction:column;
+    background-color: rgba(238,236,236);
+}
+
+.area_message_profile_engraver {
+    background-color: rgb(238,236,236);
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: space-between;
+    padding-left:0px;
+    padding-right: 0px;
+    overflow-x:hidden;
+    overflow-y: auto;
+    height: 250px;
+    border:1px solid black
+}
+
+.div_text_com_in_profile_engraver {
+    border:0px solid black;
+}
+
+.text_comment_in_profile_engraver {
+    background-color: rgb(255,253,253);
+    border: 2px solid rgb(174,184,211);
+    border-radius: 15px;
+    color: rgb(71, 50, 46);
+    font-size: 1em;
+    position: relative;
+    padding-top: 0px;
+    padding-bottom:0px;
+    padding-left: 0px;
+    padding-right: 0px;
+}
+.one_messege_comm {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.sky_messege {
+    display: flex; 
+    flex-direction: row; 
+    align-items: center;
+    margin-right: 15px;
+}
+
+.triangle_message_left {
+    display: flex;
+    border-left: 14px solid rgba(129, 144, 187, 0.644);
+    border-bottom: 5px solid transparent;
+    border-top: 5px solid transparent;
+    height: 1px;
+    margin-right: 5px;
+}
+
+.div_link_author {
+    display: flex;
+    align-items: center;
+}
+
+.block_gallary_profile_engraver {
+    width: 100%;
+    border:0px solid black;
+    background-image: linear-gradient(to top left, rgb(238,236,236) , rgb(255,218,150));
+    border-radius: 13px;
+}
+
+.block_gallary_wrapper_images {
+    width: 100%;
+}
+.wrapper_image_gallary { 
+    width:200px; 
+    height: 170px;
+    display: flex; 
+    float: left; 
+    border: 0px solid grey;
+    padding: 0px;
+    margin-left:5px;
+    margin-right:5px;
+    margin-top: 5px;
+    background-color: rgb(160, 143, 121) transparent;
+    align-items: center;
+    justify-content: center;
+}
+.gallary_images_backfone {
+    background-color: transparent;
+}
+.gallary_images_pofile_engraver {
+    width:200px;
+    max-height: 170px;
+    transition: 0.3s;
+    border: 2px solid rgb(230, 230, 230);
+
+}
+.gallary_images_pofile_engraver:hover {
+    transform: scale(1);
+}
+
+.wrapper_img_profile_engraver {
+    transition: 0.2s;
+}
+
+.img_profile_engraver {
+    border: 0px solid black;
+    transition: 0.3s;
+    width: 230px;
+    max-height: 300px;
+    height: 200px;
+}
+
+.img_profile_engraver:hover {
+    cursor: pointer;
+    box-shadow: 0 0 8px rgb(201, 181, 181) ;
+    border:0px solid rgb(231,214,214) ;
+    transform: scale(1);
+    cursor: zoom-in;
+}
+
+.scroll-block { 
+    padding-top: 7px;
+    height: 200px; 
+    scrollbar-width: 3px; 
+    height: 200px;
+    width: 340px;
+    background: whitesmoke;
+    border: 0px solid black; 
+    overflow-y: scroll;  
+    border-radius: 10px; 
+    background-color:rgb(255, 255, 255);
+    display: flex;
+    flex-direction: column;
+    padding-left: 5px !important;
+    padding-right: 5px !important;
+}
+
+.scroll-block::-webkit-scrollbar-track {border-radius: 4px;}
+.scroll-block::-webkit-scrollbar {width: 6px;}
+.scroll-block::-webkit-scrollbar-thumb {border-radius: 4px;background: #f0f2f5;}
+.scroll-block:hover::-webkit-scrollbar-thumb {background: #6a7d9b;}
+
+.wrapper_comment_media {
+    padding-left: 5px !important;
+    padding-right: 5px !important;
+}
+
+.del_photo {
+    color:black;
+    cursor: pointer;
+    width: 100%;
+    border:1px solid black;
+    background: none;
+    transition: 0.25s;
+}
+
+.del_photo:hover {
+    background-image: linear-gradient(to bottom right, rgb(114,128,141), rgb(52,58,64));
+    color:rgb(219, 182, 58);
+}
+
+
+.dop_info_profile_button {
+    box-shadow: transparent;
+    border: none;
+    width: 40px;
+    height: 40px;
+    background-color: transparent;
+    background-color: rgba(255, 162, 0, 0.644);
+    border-radius: 7px;
+    outline: none;
+}
+
+.icon_profile {
+    width: 40px;
+    height: 40px;
+    opacity:0.7;
+    cursor: pointer;
+}
+
+
+.profile_engraver_gallary_onclick {
+    border:0px solid rgb(0, 255, 13);
+    display: flex; 
+    width:20px; 
+    background-color: rgba(86, 103, 121, 0);
+    align-items: center;
+    transition: 0.6s;
+    border-radius: 20px;
+}
+.profile_engraver_gallary_onclick:hover {
+    background-color: rgba(150, 146, 204, 0.288);
+}
+
+.profile_engraver_gallary_onclick_link {
+    opacity: 0.8;
+    width: 20px; 
+    height: 30px; 
+    opacity: 0.2;
+    transition: 0.2s;
+}
+.profile_engraver_gallary_onclick_link:hover {
+    opacity: 0.8;
+}
+
+
+.profile_engraver_comment {
+    font-size: 0.8em;
+    line-height: 1em;
+    margin-left: 10px;
+    border: 0px solid black;
+    margin:0px;
+}
+.list_profile_engraver{
+    transition: 0.2s;
+    align-items: center;
+    box-shadow: 0 0 4px rgba(52, 58, 64, 0.493);
+    margin-top:5px;
+    margin-bottom:5px;
+    justify-content: space-between;
+}
+.list_profile_engraver:hover {
+    background-image: linear-gradient(to right, rgb(251,191,87), rgb(245,245,245));
+    box-shadow: -15px 0px 0px 0px rgb(251,191,87);
+}
+
+.link_all_profile_engraver  {
+    font-size: 1.2em;
+    padding:2px;
+    text-decoration: none;
+    color: rgba(43,26,26);
+    margin-right: 15px;
+}
+.link_all_profile_engraver:hover {
+    color: blanchedalmond;
+}

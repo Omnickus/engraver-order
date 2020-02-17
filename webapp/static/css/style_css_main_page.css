@@ -1,0 +1,50 @@
+.main_page_login_engraver_link {
+    font-size: 1.2em;
+    padding:2px;
+    text-decoration: none;
+    color: rgba(43,26,26);
+    border-radius: 10px;
+    padding-left:5px;
+    padding-right: 5px;
+}
+
+.main_page_login_engraver_link:hover {
+    color: rgb(255, 145, 77, 0.781);
+    text-decoration: none;
+}
+
+.block_main_page_profile_engraver {
+    position: relative;
+    display: flex;
+    justify-content: space-around;
+    width: 65%;
+    flex-direction: column;
+    border: 0px solid red;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.23);
+    background-color:0px rgba(43,26,26) transparent;
+    padding-right: 5px;
+    padding-left: 5px;
+}
+
+.wrapper_main_page_profile_engraver {
+    margin-top: 7px;
+    padding:2px;
+    display: flex;
+    flex-direction: row;
+    border: 2px solid rgb(193,191,191);
+    background-color: rgba(255, 255, 255, 0.596);
+    border-radius: 10px;
+}
+
+.block_main_page_engraver_left{
+    width: 50%;
+}
+
+.block_main_page_engraver_right {
+    width: 50%;
+}
+.font_gothic {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    text-align: center;
+    opacity: 0.8;
+}

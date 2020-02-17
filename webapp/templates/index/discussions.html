@@ -1,0 +1,104 @@
+{% extends 'index/index.html' %}
+
+{% block content %}
+
+<div class="col-12" style="background-color: #fff;box-shadow: 0 0 4px rgba(52, 58, 64, 0.493); border-radius: 10px; padding-left: 0px !important; padding-right: 0px !important;">
+    {% if current_user.is_authenticated %}
+        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModalCenter">Добавить описание</button>
+    {% endif %}
+    <div style="justify-content: center;display: flex;">
+        <h5>Обсуждения</h5>
+    </div>
+    
+    <div class="row">
+        {% if current_user.is_authenticated %}
+            <div style="align-items: center; display: flex; flex-direction: row-reverse; width: 100%;">
+                
+                <!--
+                <div style="border: 2px solid black; width: 35px; height: 35px; justify-content: center; align-items: center; display: flex; border-radius: 50%; margin-left: 5px; margin-right: 5px;">
+                    <img src="../../static/images/all_img/1.png" style="width: 15px;">
+                </div>
+                -->
+            </div>
+        {% endif %}
+    </div>
+    <div style="border: 0px solid black; margin-bottom:5px;">
+        {% for discuss in all_discuss.items %}
+        <div class="background_hover">
+            <div style="display: flex; align-items: center;">
+                <div>
+                    {% if discuss.like_up == None %}
+                        <smal>{{0}}</smal>
+                    {% else %}
+                        <smal>{{discuss.like_up}}</smal>
+                    {% endif %}
+                    <a href="{{url_for('discussions.add_like_to_discussion', id = discuss.id, like = 'like_up', name_discuss = discuss.name_discuss, way = 1010) }}"><img src="../../static/images/all_img/icon/like.png" style="width: 15px; height: 15px;margin-right: 7px;"></a>
+                </div>
+                <div>
+                    {% if discuss.like_down == None %}
+                        <smal>{{0}}</smal>
+                    {% else %}
+                        <smal>{{discuss.like_down}}</smal>
+                    {% endif %}
+                    <a href="{{url_for('discussions.add_like_to_discussion', id = discuss.id, like = 'like_down', name_discuss = discuss.name_discuss, way = 1010) }}"><img src="../../static/images/all_img/icon/like.png" style="width: 15px; height: 15px;margin-right: 7px;transform: rotate(180deg);"></a>
+                </div>
+                <a href="{{ url_for('discussions.topic_of_discussion', id_topic_discuss = discuss.id) }} " class="link_discuss_topic"><h6 style="margin: 0px;">{{ discuss.name_discuss }}</h6></a>
+            </div>
+            <div style="display: flex; align-items: center;">
+                <a href=" {{ url_for('profile_engraver', login = discuss.author_discuss_login) }} " class="link_discuss_topic">{{ discuss.author_discuss_login }}</a>
+                <p style="margin-bottom: 0px; font-size: 0.8em; margin:0px 4px">{{ discuss.created_discuss.strftime('%d.%m.%Y') }}</p>
+                {% if current_user.login == 'Omnic' %}
+                    <a href=" {{ url_for('discussions.delete_discussion', name_discuss = discuss.name_discuss) }} " style="margin-left: 10px;"><img src="../../static/images/all_img/icon/delete_1.png" style="width: 10px; height: 10px; float: right;"></a>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <nav aria-label="Page navigation example" style="margin-top:10%;">
+        <ul class="pagination" style="display: flex; justify-content: center;">
+          <li  {% if not all_discuss.has_prev %} class="page-item disabled" {% endif %} >
+            <a class="page-link" href=" ?page={{ all_discuss.prev_num }}" aria-label="Previous">
+              <span aria-hidden="true">&laquo;</span>
+            </a>
+          </li>
+          {% for page in all_discuss.iter_pages() %}
+
+                <li {% if page == all_discuss.page %} class="page-item active"  {% endif %}><a class="page-link" href="./?page={{ page }}">{{ page }}</a></li>
+
+          {% endfor %}
+          </li>
+          <li  {% if not all_discuss.has_next %} class="page-item disabled" {% endif %} >
+            <a class="page-link disabled" href=" ?page={{ all_discuss.next_num }}" aria-label="Previous">
+              <span aria-hidden="true">&raquo;</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content" style="box-shadow: 0 0 8px rgba(52,58,64); background: rgb(245,245,245);">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle" style="color: rgb(43, 43, 43);">Тема обсуждение</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="{{ url_for('discussions.add_discuss') }}"   method="POST">
+                        <input type="text" name="name_discuss" class="form-control" style="width: 100%;">
+                        <input type="hidden" name="author_discuss" value="{{ current_user.id }}">
+                        <input type="hidden" name="author_discuss_login" value="{{ current_user.login }}">
+                        <input type="submit" value="Создать обсуждение" style="float: right;" class= "btn btn-primary">
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
