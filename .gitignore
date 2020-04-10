@@ -4,6 +4,6 @@ migrations/
 webapp/config.py
 *__pycache__*
 .idea/
-webapp/images/
+webapp/static/images/
 run.bat
 *.db
