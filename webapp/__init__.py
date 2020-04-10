@@ -46,7 +46,7 @@ def create_app():
     login_manager.init_app(app)
     login_manager.login_view = 'login'
 
-    ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'JPG', 'jpeg', 'gif'])
+    ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'JPG', 'jpeg', 'gif', 'webp'])
     
     @login_manager.user_loader
     def load_user(user_id):
@@ -65,7 +65,6 @@ def create_app():
             else:
                 page = 1
             user_name = login
-            print(user_name)
             user = Users.query.filter_by(login = login).all()
             comments = Comment.query.filter(Comment.user_reciver == login).order_by(Comment.created.desc()).limit(40).all()
             dop_info = Profile.query.filter_by(info_profile_login = login).all()
@@ -285,9 +284,10 @@ def create_app():
                 x = height - width
                 x2 = x // 2
                 im2 = im.crop((0, x2, width, height - x2))
+            print(f"Success")
             im2.thumbnail((400, 400))
             im2.save(os.path.join(app.config['UPLOAD_PHOTO_IN_GALLARY'] + '\\' + current_user.login + '\\gallary' + '\\' + filename))
-            return True
+            return im2
 
 
     @app.route('/login')
@@ -379,8 +379,8 @@ def create_app():
                 flash('В фамилии не может быть пробелов')
                 return redirect(url_for('registration'))
 
-            if len(login) < 3:
-                flash("Логин слишком короткий")
+            if len(login) <= 3 or len(login) > 15:
+                flash("Логин должен содержать от 3-х до 15-ти символов и не может содержать пробелов")
                 return redirect(url_for('registration'))
             
             if ' ' in login:
@@ -428,8 +428,7 @@ def create_app():
             print(text_comment)
             if len(text_comment) <= 2:
                 recipient_engraver = request.form['recipient_engraver']
-                flash('Слишком маленькое сообщение')
-                return redirect(url_for('profile_engraver', login = recipient_engraver))
+                return f"Очень маленькое сообщение"
 
             author_engraver = request.form['author_engraver']
             recipient_engraver = request.form['recipient_engraver']
@@ -437,7 +436,7 @@ def create_app():
             new_comment = Comment(text = text_comment, user_reciver = recipient_engraver, user_author = current_user.id, created = datetime.now())
             db.session.add(new_comment)
             db.session.commit()
-            return redirect(url_for('profile_engraver', login = login))
+            return 'Сообщение отправлено'
         else:
             recipient_engraver = request.form['recipient_engraver']
             flash('Оставлять комментарии могут только авторизованные пользователи')
@@ -448,15 +447,15 @@ def create_app():
     @app.route('/delete-comment/', methods = ['POST', 'GET'])
     def delete_comment():
         try:
-            user_name = request.args.get('user_name')
-            comment_id = request.args.get('comment_id')
-            print(comment_id)
+            user_name = request.form['comment_user']
+            comment_id = request.form['comment_id']
+            print(f"{user_name}_____{comment_id}")
             comment_del = Comment.query.filter_by(id = comment_id).first()
             db.session.delete(comment_del)
             db.session.commit()
-            return redirect(url_for('profile_engraver', login =user_name))
+            return 'Сообщение удалено'
         except:
-            return 'Что то пошло не так'
+            return f'Что то пошло не так + {NameError}'
 
 
     @app.route('/crop-center')
@@ -520,8 +519,9 @@ def create_app():
                             db.session.add(save_photo)
                             db.session.commit()
                             flash('Фаил загружен')
+                            return redirect(url_for('profile_engraver', login = current_user.login))
                         except:
-                            flash('Произошла ошибка. Попробуйте снова.')
+                            flash('Произошла ошибка. Попробуйте снова. 010')
                             return redirect(url_for('profile_engraver', login = current_user.login))
                     else:
                         for i in results:
@@ -559,7 +559,7 @@ def create_app():
         if request.method == 'POST':
             try:
                 name_photo = request.form['del']
-                photo_del = Gallary.query.filter_by(name_photo = name_photo).first()
+                photo_del = Gallary.query.filter(Gallary.name_photo == name_photo, Gallary.user_author_login == current_user.login).first()
                 db.session.delete(photo_del)
                 db.session.commit()
                 path = os.path.join(app.config['UPLOAD_PHOTO_IN_GALLARY'] + '\\' + current_user.login + '\\galarry' + '\\' + name_photo )

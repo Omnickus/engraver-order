@@ -293,9 +293,9 @@
 
 .scroll-block { 
     padding-top: 7px;
-    height: 200px; 
+    min-height: 200px; 
     scrollbar-width: 3px; 
-    height: 200px;
+    max-height: 700px;
     width: 340px;
     background: whitesmoke;
     border: 0px solid black; 
@@ -339,7 +339,7 @@
     width: 40px;
     height: 40px;
     background-color: transparent;
-    background-color: rgba(255, 162, 0, 0.644);
+    background-color: rgb(255, 162, 0);
     border-radius: 7px;
     outline: none;
 }
@@ -378,8 +378,8 @@
 
 
 .profile_engraver_comment {
-    font-size: 0.8em;
-    line-height: 1em;
+    font-size: 0.9em;
+    line-height: 1.1em;
     margin-left: 10px;
     border: 0px solid black;
     margin:0px;
@@ -406,4 +406,27 @@
 }
 .link_all_profile_engraver:hover {
     color: blanchedalmond;
+}
+
+
+#avatar_frame_wrapper {
+    box-shadow: 0 0 4px rgba(52, 58, 64, 0.493); 
+    background-color: #343A40;
+    margin: 0px !important;
+    margin-left:0px;
+    border-radius: 10px; 
+    padding: 10px;
+    max-height: 220px; 
+    max-width: 220px;
+}
+
+#del_comment_profile_engraver {
+    background-image: url("../images/all_img/icon/delete_1.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    background-color: transparent;
+}
+#del_comment_profile_engraver:hover {
+    cursor: pointer;
 }

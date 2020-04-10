@@ -24,7 +24,7 @@
   <ul class="navbar-nav mr-auto"  style="width: 1144px; margin: 0px auto;">
     <li class="nav-item active">
       <div>
-        <a class="navbar-brand" href="/" style="display: flex; justify-content: center;">Главное меню</a>
+        <a class="btnfos btnfos-link header-link-marg" href="/" style="display: flex; justify-content: center;">Главное меню</a>
       </div>
     </li>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -36,30 +36,29 @@
         <li class="nav-item active">
             {% if current_user.is_authenticated %}
               <div class="link_menu_with_icon">
-                <img class ="icon_menu" src="../../static/images/all_img/icon/33750.png">
-                <a class="nav-link" href="{{ url_for('profile_engraver', login = current_user.login) }}">Моя анкета <span class="sr-only">(current)</span></a>
+                <!--<img class ="icon_menu" src="../../static/images/all_img/icon/33750.png"> -->
+                <a class="btnfos btnfos-link header-link-marg" href="{{ url_for('profile_engraver', login = current_user.login) }}">Моя анкета <span class="sr-only">(current)</span></a>
               </div>
             {% endif %}
         </li>
     {% if not current_user.is_authenticated %}
         <li class="nav-item dropdown" style="display: flex; flex-direction: row;">
-            <a class="nav-link dropdown-toggle link_menu_with_icon" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <img class ="icon_menu" src="../../static/images/all_img/icon/18057.png">
+            <a class="dropdown-toggle link_menu_with_icon btnfos btnfos-link header-link-marg" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <!--<img class ="icon_menu" src="../../static/images/all_img/icon/18057.png"> -->
                 Логин
             </a>
     {% endif %}
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="/registartion">Регистрация</a>
-            <a class="dropdown-item" href="/login">Авторизация</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#"></a>
+            <a class="dropdown-item btnfos btnfos-link" href="/registartion">Регистрация</a>
+            <a class="dropdown-item btnfos btnfos-link" href="/login">Авторизация</a>
+            
           </div>
         </li>
       {% if current_user.is_authenticated %}
         <li class="nav-item">
           <div class="link_menu_with_icon">
-            <img class ="icon_menu" src="../../static/images/all_img/icon/21766.png">
-            <a class="nav-link" href="/logout">Выйти</a>
+            <!--<img class ="icon_menu" src="../../static/images/all_img/icon/21766.png"> -->
+            <a class="btnfos btnfos-link" href="/logout">Выйти</a>
           </div>
         </li>
       {% endif %}

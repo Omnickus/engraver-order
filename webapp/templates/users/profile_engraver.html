@@ -7,9 +7,9 @@
 <div class="container" style="margin-top:0px; border: 0px solid black; margin:0px !important; padding:0px !important; background-color: rgba(245, 245, 245, 0);" >
     {% for info_user in info %}
         <div style="width:100%;padding-left: 0px;padding-right: 0px;padding-bottom: 0px; background-color: rgba(53, 216, 140, 0); margin-top: 0px;">
-            <div class="col media_width block_info_engraver_screen" style="border: 0px solid rgba(95, 121, 146, 0.699); width: 100%;display: flex; justify-content: space-between; margin: 0px auto; margin: 0px;padding: 0px !important">
-                <div class="row" style="box-shadow: 0 0 4px rgba(52, 58, 64, 0.493); margin: 0px !important; background-color: rgb(255, 255, 255); border-radius: 10px; padding: 10px;max-height: 220px;">
-                    <div class="div_avatar_profile_engraver" style="border:0px solid rgb(153, 0, 145);background-color: rgb(255,255,255);">
+            <div class="col media_width" style="border: 0px solid rgba(95, 121, 146, 0.699); width: 100%;display: flex; justify-content: space-between; margin: 0px auto; margin: 0px;padding-left: 0px !important; padding-right:0px;">
+                <div class="row" id="avatar_frame_wrapper">
+                    <div class="div_avatar_profile_engraver" style="border:0px solid rgb(153, 0, 145);background-color: #343A40;">
                         <img class="avatar_profile_engraver" src= "{{ url_for('static', filename = 'images/main_page_profile_engraver_avatar/' + info_user.login + '/' + info_user.images)  }} ">
                         <div class="block_form_engraver" style="border:0px solid green;">
                             {% if current_user.login == user_name %}
@@ -27,14 +27,15 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-8 media_width media_width_profile_ipad" style=" padding: 10px; background-color: rgb(255,255,255); border-radius: 10px;box-shadow: 0 0 4px rgba(52, 58, 64, 0.493);">
+                <div class="col-8 media_width" style="background-color: rgb(255,255,255); border-radius: 10px;box-shadow: 0 0 4px rgba(52, 58, 64, 0.493); display: flex; flex-direction: column; width:100%;padding-left: 0px; padding-right: 0px;">
                     <!-- Button trigger modal кнопка модального окна дополнительной информации-->
-                    <h5 style="text-align: center;">Анкета</h5>
-                    <hr>
-                    {% if current_user.is_authenticated and  current_user.login == user_name %}
-                        <button type="button"  class="dop_info_profile_button" data-toggle="modal" data-target="#exampleModal" style="float: right;"><div> <img class="icon_profile" src="../../static/images/all_img/icon/45802.png"> </div></button>
-                    {% endif %}
-                    <div class="block_info_engraver"><p class="text_about_engraver"><span>Логин:</span>&nbsp;{{ info_user.login }}</p></div>
+                    <div class="header-background" style="display: flex;">
+                        {% if current_user.is_authenticated and  current_user.login == user_name %}
+                            <button type="button"  class="dop_info_profile_button" data-toggle="modal" data-target="#exampleModal" style="position: absolute;margin-left: 100%;"><div> <img class="icon_profile" src="../../static/images/all_img/icon/45802.png"> </div></button>
+                        {% endif %}
+                        <h5 style="margin: 8px auto; color: #D8D8D8;">Анкета</h5>
+                    </div>
+                    <div class="block_info_engraver"><p class="text_about_engraver" id="API_login_engraver_profile"><span>Логин:</span>&nbsp;{{ info_user.login }}</p></div>
                     <div class="block_info_engraver"><p class="text_about_engraver"><span>Имя:</span>&nbsp;{{ info_user.first_name }}</p></div>
                     <div class="block_info_engraver"><p class="text_about_engraver"><span>Фамилия:</span>&nbsp;{{ info_user.second_name }}</p></div>
                     <div class="block_info_engraver"><p class="text_about_engraver"><span>Почта:</span>&nbsp;{{ info_user.email }}</p></div>
@@ -54,48 +55,33 @@
                 </div>
             </div>
         </div>
-        <div style="box-shadow: 0 0 4px rgba(52, 58, 64, 0.493); margin: 0px; padding: 10px; background-color: rgb(255,255,255); border-radius: 10px; margin-top: 20px !important;">
-            <div style="justify-content: center; display: flex;">
-                <h5>Отзывы</h5>
-            </div>
-            <!--ПОЛЕ ГДЕ ОТОБРАЖАЮТСЯ КОММЕНТАРИИ-->
-            <hr>
-            <div class="col-12 scroll-block" style="border: 0px solid rgba(95, 121, 146, 0.699);">
-                {% for comment in comments %}
-                    <div class="row" style="justify-content: space-between; margin:2px auto; width: 100%;border: 0px solid rgb(133, 68, 68); align-items: center; background-color: rgb(255,255,255); padding:2px; border-radius: 3px;">
-                        <div class="col-8 wrapper_comment_media" style="border: 0px solid red;">
-                            <div style="border: 0px solid black;">
-                                <p class="profile_engraver_comment"> {{ comment.text }} </p>
-                            </div>
-                        </div>
-                        <div class="col-4 wrapper_comment_media" style="border:0px solid black;">
-                            <p class="profile_engraver_comment" style="float: right;">
-                                {% if current_user.login == user_name %}
-                                    <a href=" {{ url_for('delete_comment', comment_id = comment.id, user_name = user_name ) }} " method = 'POST'><img src="../../static/images/all_img/icon/delete_1.png" style="width: 10px;" ></a> 
-                                {% endif %}
-                                {{ comment.created.strftime('%d.%m.%Y') }} <a class="link_hover" href=" {{ url_for('profile_engraver', login = comment.user) }} ">{{ comment.user }} </a></p>
-                        </div>
+        <!-- Состоит ли в команде-->
+        <div style=" background-color: #fff; border-radius: 10px;box-shadow: 0 0 4px rgba(52, 58, 64, 0.493);margin-top: 20px;">
+            <div>
+                <div class="header-background" style="display: flex;">
+                    <h5 style="padding-top:5px;padding-bottom: 5px; color: #D8D8D8;margin: 0px auto;">Гильдия</h5>
+                </div>
+                <div style="display: flex;justify-content: space-between; flex-direction: row;">
+                    <div style="display: flex; flex-direction: column; border: 1px solid red;">
+                        <p>Команда: состоит в команде/не состоит в команде</p>
+                        <p>Количество человек в команде: 6 человек (можно подсветить их ники)</p>
                     </div>
-                {% endfor %}
-            </div>
-            <!--ОТПРАВКА КОММЕНТАРИЯ-->
-            <div class="row" style="width:100%;margin:0px auto;background-color: rgba(231, 203, 79, 0);margin-bottom: 30px;">
-                <form action="{{ url_for('add_comment') }} " method="post" class="form_comment_profile_engraver">
-                        <textarea name="text" required placeholder='Вы можете оставить свой отзыв' class="text_area_comment_profile_engraver"></textarea>
-                        <input type="hidden" name = 'author_engraver' value="{{ current_user.login }}">
-                        <input type="hidden" name = 'recipient_engraver' value="{{ user_name }}">
-                        <input style="float: right;" class="qwe" type="submit" value="Отправить">
-                </form>
+                    <div style="display: flex; border: 1px solid blue; flex-direction: column; align-items: center; width: 30%;">
+                        <p>Логотип</p>
+                        <img src="../../static/images/all_img/icon/логотип_тестjpg.jpg" style="width: 100px; height: 100px;">
+                    </div>
+                </div>
             </div>
         </div>
         <!--ГАЛЛЕРЕЯ-->
         <div style=" background-color: #fff; border-radius: 10px;box-shadow: 0 0 4px rgba(52, 58, 64, 0.493);margin-top: 20px;">
             <div>
-                {% if current_user.login == user_name %}
-                    <button type="button"  class="dop_info_profile_button" data-toggle="modal" data-target="#download_photo_to_gallary" style="float: right;margin-top: 5px;margin-right: 10px;"><div> <img class="icon_profile" src="../../static/images/all_img/icon/download_photo_to_gallary_profile_engraver.png"> </div></button>
-                {% endif %}
-                <h5 style="text-align:center; padding-top:10px;">Галерея</h5>
-                <hr>
+                <div class="header-background" style="display: flex;">
+                    <h5 style="color: #D8D8D8;margin: 8px auto;">Галерея</h5>
+                    {% if current_user.login == user_name %}
+                        <button type="button"  class="dop_info_profile_button" data-toggle="modal" data-target="#download_photo_to_gallary" style="position: absolute;margin-left: 100%;"><img class="icon_profile" src="../../static/images/all_img/icon/download_photo_to_gallary_profile_engraver.png"></button>
+                    {% endif %}
+                </div>
             </div>
             <div style=" display: flex; flex-direction: row; padding:2px; justify-content: space-between;">
                 <div class="profile_engraver_gallary_onclick">
@@ -119,7 +105,45 @@
                 </div>
             </div>
         </div>
-        <!--===========================Всплывающее модальное окно для загрузки фотографий в галлерею=================================-->
+        <!--ПОЛЕ ГДЕ ОТОБРАЖАЮТСЯ КОММЕНТАРИИ-->
+        <div style="box-shadow: 0 0 4px rgba(52, 58, 64, 0.493); margin: 0px;background-color: rgb(255,255,255); border-radius: 10px; margin-top: 20px !important;">
+            <div class="header-background" style="justify-content: center; display: flex;">
+                <h5 style="color: #D8D8D8;">Отзывы</h5>
+            </div>
+            <div class="col-12 scroll-block"  id="refresh_ajax" style="border: 0px solid rgba(95, 121, 146, 0.699);">
+                {% for comment in comments %}
+                    <div class="row" style="justify-content: space-between; margin:2px auto; width: 100%;border: 1px solid rgb(133, 68, 68); align-items: center; background-color: rgb(255,255,255); padding:2px; border-radius: 3px;">
+                        <div class="col-8 wrapper_comment_media" style="border: 1px solid red; padding-top: 5px; padding-bottom: 5px; border-radius: 5px; background-color: rgba(165, 42, 42, 0.156);">
+                            <div style="border: 0px solid black;">
+                                <p class="profile_engraver_comment"> {{ comment.text }} </p>
+                            </div>
+                        </div>
+                        <div style="border:1px solid black; display: flex; flex-direction: row; align-items: center;">
+                            <a style="font-size: 0.9em;" href=" {{ url_for('profile_engraver', login = comment.user) }} ">  {{ comment.user }} &nbsp; </a>  
+                            <p class="profile_engraver_comment" style="float: right; display: flex;"> {{ comment.created.strftime('%d.%m.%Y') }} </p>
+                            {% if current_user.login == user_name %}
+                                <form style="display: flex; flex-direction: row;">
+                                    <input type="hidden" value="{{ comment.id }}" name="comment_id">
+                                    <input type="hidden" value="{{ comment.user }}" name="comment_user">
+                                    <button id="del_comment_profile_engraver" style="height: 20px; width:20px; align-items: center; border: 0px solid;"></button>
+                                </form>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <!--ОТПРАВКА КОММЕНТАРИЯ-->
+            <div class="row" style="width:100%;margin:0px auto;background-color: rgba(231, 203, 79, 0);margin-bottom: 30px;">
+                <form class="form_comment_profile_engraver" id="ajax_text_area_comment_profile_engraver">
+                        <textarea name="text" required placeholder='Вы можете оставить свой отзыв' class="text_area_comment_discuss"></textarea>
+                        <input type="hidden" name = 'author_engraver' value="{{ current_user.login }}">
+                        <input type="hidden" name = 'recipient_engraver' value="{{ user_name }}">
+                        <input style="float: right;" id = "send" type="button" value="Отправить" class="button_discuss_comment">
+                </form>
+                <div id="result"></div>
+            </div>
+        </div>
+        <!--=========================== Всплывающее модальное окно для загрузки фотографий в галлерею =================================-->
         <div class="modal fade" id="download_photo_to_gallary" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">

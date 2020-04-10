@@ -63,17 +63,17 @@ def add_like_to_discussion():
         if way == 1010:
             like = request.args.get('like')
             #name_discuss = request.args.get('name_discuss')
-            Like_in_discussion.add_like_to_discussion_all_discuss(discuss_id, like, way, author_like)
+            Like_in_discussion.add_like_to_discussion_all_discuss(discuss_id, like, author_like)
             return redirect(url_for('discussions.discussion'))
         elif way == 1020:
             comment_id = request.args.get('id')
             like = request.args.get('like')
-            Like_in_discussion.add_like_to_comment_in_topic_discuss(comment_id, like, way, author_like)
+            Like_in_discussion.add_like_to_comment_in_topic_discuss(comment_id, like, author_like)
             return redirect(url_for('discussions.topic_of_discussion', id_topic_discuss = topic_id))
         elif way == 1030:
             like = request.args.get('like')
             comment_id_second = request.args.get('id')
-            Like_in_discussion.add_like_to_comment_in_topic_discuss_comment(comment_id_second, like, way, author_like)
+            Like_in_discussion.add_like_to_comment_in_topic_discuss_comment(comment_id_second, like, author_like)
             return redirect(url_for('discussions.topic_of_discussion', id_topic_discuss = topic_id))
         else:
             flash(f"Ошибка")
@@ -143,7 +143,7 @@ def add_comment_to_comment():
 
 
 class Like_in_discussion():
-    def add_like_to_discussion_all_discuss(discuss_id, like, way, author_like):
+    def add_like_to_discussion_all_discuss(discuss_id, like, author_like):
         if current_user.is_authenticated:
             if like == 'like_up':
                 cur = con.cursor()
@@ -219,7 +219,7 @@ class Like_in_discussion():
             flash(f'Только авторизованные пользователи могут оставлять голоса')
 
     
-    def add_like_to_comment_in_topic_discuss(comment_id, like, way, author_like):
+    def add_like_to_comment_in_topic_discuss(comment_id, like, author_like):
         if current_user.is_authenticated:
             if like == 'like_up':
                 cur = con.cursor()
@@ -295,7 +295,7 @@ class Like_in_discussion():
             flash(f'Только авторизованные пользователи могут оставлять голоса')
 
 
-    def add_like_to_comment_in_topic_discuss_comment(comment_id_second, like, way, author_like):
+    def add_like_to_comment_in_topic_discuss_comment(comment_id_second, like, author_like):
         if current_user.is_authenticated:
             print(f"=========================={comment_id_second}")
             if like == 'like_up':

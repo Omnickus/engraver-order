@@ -205,8 +205,22 @@ class Photo_event(db.Model):
     voice = db.Column(db.Integer, nullable = True, unique = False)
     cast_a_vote = db.Column(db.String, nullable = True, unique = False)
     topic_event_id_photo = db.Column(db.Integer, nullable = False, unique = False)
+    like_up = db.Column(db.Integer, unique = False, nullable = True)
+    like_down = db.Column(db.Integer, unique = False, nullable = True)
 
     photo_event_id = db.Column(db.Integer, db.ForeignKey('event.id', ondelete='CASCADE'), index=True)
 
     def __repr__():
         return f'{self.author_photo}'
+
+class Photo_event_like(db.Model):
+    id = db.Column(db.Integer, primary_key = True)
+    author_like = db.Column(db.String, unique = False, nullable = False)
+    date_like = db.Column(db.DateTime,unique = False, nullable=False)
+    up = db.Column(db.Integer, unique = False, nullable = True)
+    down = db.Column(db.Integer, unique = False, nullable = True)
+
+    like_photo_id = db.Column(db.Integer, db.ForeignKey('photo_event.id', ondelete='CASCADE'), index=True)
+
+    def __repr__(self):
+        return f"{self.id}"

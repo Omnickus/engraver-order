@@ -8,7 +8,8 @@ pip freeze > requirements.txt
 Миграции
 set FLASK_APP=webapp && FLASK db init
 move webdb.db webdb.db.old
-set FLASK_APP && flask db migrate -m "add new table commet comments"
+set FLASK_APP && flask db migrate -m "add new column like"
 flask db upgrade
 move webdb.db.old webdb.db
 flask db stamp de08b25fb416
+give bane

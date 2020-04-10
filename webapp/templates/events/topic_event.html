@@ -65,9 +65,23 @@
                         <div>
                             <small><a class="left_menu_link_first_step" href="{{ url_for('profile_engraver', login = photo.author_photo) }}"><strong style="color: rgb(255,99,71);">{{ photo.author_photo }}</strong></a></small>
                         </div>
-                        <div>
-                            <a href="#"><img src="../../static/images/all_img/icon/like.png" style="width: 10px; height: 10px;margin-right: 7px;"></a>
-                            <a href="#"><img src="../../static/images/all_img/icon/like.png" style="width: 10px; height: 10px;margin-right: 7px;transform: rotate(180deg);"></a>
+                        <div style="display: flex;">
+                            <div style="display: flex;">
+                                {% if photo.like_up == None %}
+                                    <smal>0</smal>
+                                {% else %}
+                                    <smal>{{photo.like_up}}</smal>
+                                {% endif %}
+                                <a href="{{ url_for('events.like_get_way', event_id = event_id, photo_id = photo.id, way = 2010, like = 'like_up') }}"><img src="../../static/images/all_img/icon/like.png" style="width: 10px; height: 10px;margin-right: 7px;"></a>
+                            </div>
+                            <div style="display: flex;">
+                                {% if photo.like_down == None %}
+                                    <smal>0</smal>
+                                {% else %}
+                                    <smal>{{photo.like_down}}</smal>
+                                {% endif %}
+                                <a href="{{ url_for('events.like_get_way', event_id = event_id, photo_id = photo.id, way = 2010, like = 'like_down') }}"><img src="../../static/images/all_img/icon/like.png" style="width: 10px; height: 10px;margin-right: 7px;transform: rotate(180deg);"></a>
+                            </div>
                         </div>
                     </div>
                 </div>
