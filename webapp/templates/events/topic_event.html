@@ -7,7 +7,7 @@
         {% if current_user.login in results_check_participant %}
             <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#add_photo_to_event" style="float: right;" >Добавить фотографию</button>
         {% endif %}
-    {% elif results_check_participant == None and current_user.is_authenticated %}
+    {% elif results_check_participant == None %}
             <button type="button" class="btn_registr_event" data-toggle="modal" data-target="#registr_event">Принять участие</button>
     {% endif %}
     {% if current_user.login == 'Omnic' %}
@@ -70,17 +70,29 @@
                                 {% if photo.like_up == None %}
                                     <smal>0</smal>
                                 {% else %}
-                                    <smal>{{photo.like_up}}</smal>
+                                    <smal   id="likes">{{photo.like_up}}</smal>
                                 {% endif %}
-                                <a href="{{ url_for('events.like_get_way', event_id = event_id, photo_id = photo.id, way = 2010, like = 'like_up') }}"><img src="../../static/images/all_img/icon/like.png" style="width: 10px; height: 10px;margin-right: 7px;"></a>
+                                <form>
+                                    <input type="hidden" value="{{ event_id }}" name="event_id">
+                                    <input type="hidden" value="{{ photo.id }}" name="photo_id">
+                                    <input type="hidden" value="2010" name="way_like_up">
+                                    <input type="hidden" value="like_up" name="like_up">
+                                    <button type="button" id = "topic_event_like_up_photo" style="width: 20px;"><img src="../../static/images/all_img/icon/like.png" style="width: 10px; height: 10px;margin-right: 7px;"></button>
+                                </form>
                             </div>
                             <div style="display: flex;">
                                 {% if photo.like_down == None %}
                                     <smal>0</smal>
                                 {% else %}
-                                    <smal>{{photo.like_down}}</smal>
+                                    <smal   id="likes">{{photo.like_down}}</smal>
                                 {% endif %}
-                                <a href="{{ url_for('events.like_get_way', event_id = event_id, photo_id = photo.id, way = 2010, like = 'like_down') }}"><img src="../../static/images/all_img/icon/like.png" style="width: 10px; height: 10px;margin-right: 7px;transform: rotate(180deg);"></a>
+                                <form>
+                                    <input type="hidden" value="{{ event_id }}" name="event_id">
+                                    <input type="hidden" value="{{ photo.id }}" name="photo_id">
+                                    <input type="hidden" value="2010" name="way_like_down">
+                                    <input type="hidden" value="like_down" name="like_down">
+                                    <button type="button" id = "topic_event_like_down_photo" style="width: 20px;"><img src="../../static/images/all_img/icon/like.png" style="width: 10px; height: 10px;margin-right: 7px; transform: rotate(180deg);"></button>
+                                </form>
                             </div>
                         </div>
                     </div>

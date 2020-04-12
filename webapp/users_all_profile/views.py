@@ -12,9 +12,8 @@ def all_profiles():
     else:
         page = 1
         
-    user = Users.query
+    user = Profile.query
     engravers_pages = user.paginate( page = page, per_page = 50)
-    dop_info = Profile.query.filter(Profile.city != '').all()
-    return render_template('users/all_engraver_profile.html', engravers_pages = engravers_pages, page =page, dop_info = dop_info)
+    return render_template('users/all_engraver_profile.html', engravers_pages = engravers_pages, page =page)
 
 

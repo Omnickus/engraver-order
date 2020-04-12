@@ -6,35 +6,46 @@
   <div class="header-background" style="display: flex; justify-content: center;">
     <h5 style="text-align: center;margin-top: 10px; color: #D8D8D8;">Список анкет</h5>
   </div>
-              {% for list in engravers_pages.items %}
-              <div class="row-12">
-                <div class="col list_profile_engraver" style="border: 0px solid black;">
-                      <div style="float:left"><a class="link_all_profile_engraver" href = " {{ url_for('profile_engraver', login = list.login) }} ">{{ list.login }}</a></div>
-                      <div>
-                          <div style="display: inline-flex; align-items: center;"><p class="mb-0">{{ list.first_name }} {{ list.second_name }} </p><small style="margin-left: 5px;"></small></div>
-                      </div>
-                </div>
-              </div>
-              {% endfor %}
-          <nav aria-label="Page navigation example" style="margin-top:50%;">
-            <ul class="pagination" style="display: flex; justify-content: center;">
-              <li  {% if not engravers_pages.has_prev %} class="page-item disabled" {% endif %} >
-                <a class="page-link" href=" ?page={{ engravers_pages.prev_num }}" aria-label="Previous">
-                  <span aria-hidden="true">&laquo;</span>
-                </a>
-              </li>
-              {% for page in engravers_pages.iter_pages() %}
-    
-                    <li {% if page == engravers_pages.page %} class="page-item active"  {% endif %}><a class="page-link" href="./?page={{ page }}">{{ page }}</a></li>
-    
-              {% endfor %}
-              </li>
-              <li  {% if not engravers_pages.has_next %} class="page-item disabled" {% endif %} >
-                <a class="page-link disabled" href=" ?page={{ engravers_pages.next_num }}" aria-label="Previous">
-                  <span aria-hidden="true">&raquo;</span>
-                </a>
-              </li>
-            </ul>
-          </nav>
+    {% for list in engravers_pages.items %}
+    <div style="display: flex;padding:2px; flex-direction: row;">
+      <div class="list_profile_engraver" style="padding-left: 10px;">
+          <div style="display: flex; flex-direction: row; justify-content: space-between;">
+            <div style="padding:2px">
+              <div style="display: inline-flex; align-items: center;"><p class="mb-0"><small>Имя:</small> &nbsp; {{ list.first_name }} {{ list.second_name }} </p><small style="margin-left: 5px;"></small></div>
+            </div>
+            <div style="padding:2px">
+                <div style="float:left"><a class="link_all_profile_engraver" href = " {{ url_for('profile_engraver', login = list.login) }} ">{{ list.login }}</a></div>
+            </div>
+          </div>
+          <div style="display: flex;">
+            <p style="margin-bottom: 0px;"><small> Город:</small> {{ list.city }} </p>
+            <p style="margin-bottom: 0px; margin-left: 20px;"><small> Родился:</small> {{ list.brifdate }} </p>
+          </div>
+          <div style="display: flex;">
+            <p style="margin-bottom: 0px;"><small> Гравирую:</small> {{ list.experience }} </p>
+          </div>
+      </div>
+    </div>
+    {% endfor %}
+    <nav aria-label="Page navigation example" style="margin-top:50%;">
+      <ul class="pagination" style="display: flex; justify-content: center;">
+        <li  {% if not engravers_pages.has_prev %} class="page-item disabled" {% endif %} >
+          <a class="page-link" href=" ?page={{ engravers_pages.prev_num }}" aria-label="Previous">
+            <span aria-hidden="true">&laquo;</span>
+          </a>
+        </li>
+        {% for page in engravers_pages.iter_pages() %}
+
+              <li {% if page == engravers_pages.page %} class="page-item active"  {% endif %}><a class="page-link" href="./?page={{ page }}">{{ page }}</a></li>
+
+        {% endfor %}
+        </li>
+        <li  {% if not engravers_pages.has_next %} class="page-item disabled" {% endif %} >
+          <a class="page-link disabled" href=" ?page={{ engravers_pages.next_num }}" aria-label="Previous">
+            <span aria-hidden="true">&raquo;</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
 </div>
 {% endblock %}

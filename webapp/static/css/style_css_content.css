@@ -6,11 +6,12 @@
     width: 200px;
 }
 .event_card:hover {
-    transform: scale(1.05);
+    transform: scale(1.02);
 }
 .card_link {
     text-decoration: none;
-    color: rgb(216, 161, 59)
+    color: rgb(216, 161, 59);
+    margin-left: 120px;
 }
 .card_link:hover {
     text-decoration: none;
@@ -152,4 +153,66 @@
     padding: 5px 10px; /* Поля */
     border: 1px solid #333; /* Параметры рамки */
     width:150px;
+}
+
+.background_tree {
+    background-image: url("../images/background/backgroud_event/tree//tree3.PNG");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+
+.background_tree_1 {
+    background-image: url("../images/background/backgroud_event/tree/tree3-1.PNG");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+
+.background_tree_2 {
+    background-image: url("../images/background/backgroud_event/tree/tree3-2.PNG");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+
+.background_metal {
+    background-image: url("../images/background/backgroud_event/metal/metal3.PNG");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+
+.background_metal_1 {
+    background-image: url("../images/background/backgroud_event/metal/metal3-1.PNG");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+
+.background_metal_2 {
+    background-image: url("../images/background/backgroud_event/metal/metal3-2.PNG");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+.background_glass {
+    background-image: url("../images/background/backgroud_event/glass/glass3.PNG");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+
+.background_glass_1 {
+    background-image: url("../images/background/backgroud_event/glass/glass3-1.PNG");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+
+.background_glass_2 {
+    background-image: url("../images/background/backgroud_event/glass/glass3-2.PNG");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
 }

@@ -13,3 +13,8 @@ flask db upgrade
 move webdb.db.old webdb.db
 flask db stamp de08b25fb416
 give bane
+
+
+
+Иконки
+https://loon.site/icons/

@@ -5,28 +5,48 @@
     {% if current_user.login == 'Omnic' %}
         <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModalCenter">Создать событие</button>
     {% endif %}
-    <div class="header-background" style="display: flex; justify-content: center;">
-        <h5 style="text-align: center; margin-top: 10px;color: #D8D8D8;">События</h5>
+    <div class="header-background" style="display: flex;">
+        <h5 style="margin: 7px auto; color: #D8D8D8;">События</h5>
+        <div class="archive_event" style="position: absolute; margin-left: 100%;">
+            <a class="dop_info_profile_button" data-toggle="modal" data-target="#exampleModal" style="position: absolute;margin-left: 100%;"><div> <img class="icon_profile" src="../../static/images/all_img/icon/archive_event.png"> </div></a> 
+        </div>
     </div>
     <!-- КАРТОЧКА СОБЫТИЯ -->
     <div style=" display: flex; flex-direction: row; padding:2px; justify-content: space-between;">
         <div class="row" style="justify-content: space-around;padding: 8px !important;">
             {% for event in events %}
                 <div class= "event_card">
-                    <div style= "box-shadow: 0 0 4px rgba(52, 58, 64, 0.493); border-radius: 5px;display:flex; align-items: center; padding-right: 7px; width: 200px;">
-                        <a href="{{ url_for('events.delete_event', delete_event_id = event.id ) }} " style="align-items: center; display: flex;"><img src="../../static/images/all_img/icon/delete_1.png" style="width: 10px; height: 15px;padding-bottom: 2px;"></a>
-                        <small style="padding-left:5px;">{{ event.event_type }}</small>
-                        <div style="width: 7px;height: 7px; background-color: rgba(32, 114, 221, 0.712); margin-left: auto;border-radius: 7px;box-shadow: 0 0 4px rgb(32, 114, 221);"></div>
+                    <div style="border-radius: 5px;"> 
+                        <div {% if event.event_prev_text_second == 'Дерево' %} class="background_tree_1" 
+                            {% elif event.event_prev_text_second == 'Металл' %} class="background_metal_1" 
+                            {% elif event.event_prev_text_second == 'Стекло' %} class="background_glass_1"
+                                {% endif %} style= "box-shadow: 0 0 4px rgba(235, 99, 9, 0.823);border-radius: 5px;display:flex; align-items: center; padding-right: 7px; width: 200px;">
+                            <div style="width: 7px;height: 7px; background-color: rgba(32, 114, 221, 0.712); margin-right: auto;margin-left: 7px; border-radius: 7px;box-shadow: 0 0 4px rgb(32, 114, 221);"></div>
+                            <small style="padding-right:7px;"><strong style="color: white;">{{ event.event_type }}</strong></small>
+                            <a href="{{ url_for('events.delete_event', delete_event_id = event.id ) }} " style="align-items: center; display: flex;"><img src="../../static/images/all_img/icon/delete_1.png" style="width: 10px; height: 15px;padding-bottom: 2px;"></a>
+                        </div>
                     </div>
-                    <div style="display: flex; justify-content:center; height: 200px;width: 200px; box-shadow: 0 0 4px rgba(52, 58, 64, 0.493); border-radius: 5px;width:200px; margin-top:5px">
-                        <p class="font_gothic">{{ event.event_name }}</p>
+                    <div {% if event.event_prev_text_second == 'Дерево' %} class="background_tree" 
+                        {% elif event.event_prev_text_second == 'Металл' %} class="background_metal" 
+                        {% elif event.event_prev_text_second == 'Стекло' %} class="background_glass"
+                            {% endif %} style="display: flex; justify-content:center; height: 200px;width: 200px;box-shadow: 0 0 4px rgb(235, 99, 9, 0.823); border-radius: 5px;width:200px; margin-top:5px; flex-direction: column; justify-content: space-between;">
+                        <p class="font_gothic" style="color: white;">{{ event.event_name }}</p>
+                        <small class="font_gothic" style="color: white;">Был создан:&nbsp;{{ event.event_created.strftime('%d.%m.%Y') }}</small>
                     </div>
-                    <div style="box-shadow: 0 0 4px rgba(52, 58, 64, 0.493); border-radius: 5px;width: 200px;">
-                        <h6 class="font_gothic" style="text-align: center; margin-top: 5px;padding:2px;">{{ event.event_prev_text_first }}</h6>
+                    <div {% if event.event_prev_text_second == 'Дерево' %} class="background_tree_1" 
+                        {% elif event.event_prev_text_second == 'Металл' %} class="background_metal_1"
+                        {% elif event.event_prev_text_second == 'Стекло' %} class="background_glass_1" 
+                            {% endif %} style="box-shadow: 0 0 4px rgb(235, 99, 9, 0.823); border-radius: 5px;width: 200px;">
+                        <h6 class="font_gothic" style="color: white;text-align: center; margin-top: 5px;padding:2px;">{{ event.event_prev_text_first }}</h6>
                     </div>
-                    <div style="box-shadow: 0 0 4px rgba(52, 58, 64, 0.493); border-radius: 5px;width: 200px; padding:5px">
-                        <small>{{ event.event_prev_text_second }}</small><br>
-                        <a class="card_link" href=" {{ url_for('events.topic_event', id = event.id) }} ">Перейти</a>
+                    <div {% if event.event_prev_text_second == 'Дерево' %} class="background_tree_2"
+                        {% elif event.event_prev_text_second == 'Металл' %} class="background_metal_2"
+                        {% elif event.event_prev_text_second == 'Стекло' %} class="background_glass_2" 
+                            {% endif %} style="box-shadow: 0 0 4px rgb(235, 99, 9, 0.823); border-radius: 5px;width: 200px; padding:5px; display: flex;flex-direction: column;" >
+                        <small style="color: white;">{{ event.event_prev_text_second }}</small>
+                        <div>
+                            <a class="card_link" href=" {{ url_for('events.topic_event', id = event.id) }} ">Перейти</a>
+                        </div>
                     </div>
                 </div>
             {% endfor %}
@@ -34,33 +54,87 @@
     </div>
     <hr>
 <!-- ============== МОДАЛЬНОЕ ОКНО ДЛЯ СОЗДАНИЯ СОБЫТИЯ ======================================= -->
-<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content" style="box-shadow: 0 0 8px rgba(52,58,64); background: rgb(245,245,245);">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle" style="color: rgb(43, 43, 43);">Событие</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form action="{{ url_for('events.add_event') }} "   method="POST" >
-                    <p>Название события</p>
-                    <input type="text" name="event_name" class="form-control" style="width: 100%;">
-                    <p>Тип события</p>
-                    <input type="text" name="event_type" class="form-control" style="width: 100%;">
-                    <p>Небольшое описане события в двух словах(сверху)</p>
-                    <input type="text" name="event_prev_text_first" class="form-control" style="width: 100%;">
-                    <p>Небольшое описане события в двух словах(снизу)</p>
-                    <input type="text" name="event_prev_text_second" class="form-control" style="width: 100%;">
-                    <p>Напишите подробно об этом событии</p>
-                    <textarea name="event_text" class="text_area_comment_profile_engraver" id="abouthimseflprofile" style="min-height:150px;" placeholder="Вводить здесь"></textarea>
-                    <input type="hidden" name="event_author_login" value="{{ current_user.login }}">
-                    <input type="submit" value="Создать событие" style="float: right;" class= "btn btn-primary">
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content" style="box-shadow: 0 0 8px rgba(52,58,64); background: rgb(245,245,245);">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle" style="color: rgb(43, 43, 43); text-align: center;">Событие</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="{{ url_for('events.add_event') }} "   method="POST" >
+                        <div>
+                            <p style="text-align: center;">Тип события</p>
+                            <div style="display: flex; flex-direction: row; justify-content: space-around;">
+                                <div style="display: flex; flex-direction: column;">
+                                    <input type="radio" name="event_type" value="Событие" class="form-control" style="width: 100%;">
+                                    <label>Событие</label>
+                                </div>
+                                <div style="display: flex; flex-direction: column;">
+                                    <input type="radio" name="event_type" value="Мероприятие" class="form-control" style="width: 100%;">
+                                    <label>Мероприятие</label>
+                                </div>
+                                <div style="display: flex; flex-direction: column;">
+                                    <input type="radio" name="event_type" value="Встреча" class="form-control" style="width: 100%;" >
+                                    <label>Встреча</label>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <div>
+                            <p style="text-align: center;">Название события</p>
+                            <input type="text" name="event_name" class="form-control" style="width: 100%;">
+                        </div>
+                        <hr>
+                        <div>
+                        <p style="text-align: center;">Топ-3</p>
+                            <div style="display: flex; flex-direction: row; justify-content: space-around;">
+                                <div style="display: flex; flex-direction: column;">
+                                    <input type="radio" name="event_prev_text_first" value="Топ-3" class="form-control">
+                                    <label>Топ-3</label>
+                                </div>
+                                <div style="display: flex; flex-direction: column;">
+                                    <input type="radio" name="event_prev_text_first" value="Не заполнено" class="form-control">
+                                    <label>Не заполнено</label>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <div>
+                            <p style="text-align: center;">Материал</p>
+                            <div style="display: flex; flex-direction: row; justify-content: space-around;">
+                                <div style="display: flex; flex-direction: column;">
+                                    <input type="radio" name="event_prev_text_second" style="margin: 0px auto;" value="Дерево">
+                                    <label>Дерево</label>
+                                </div>
+                                <div style="display: flex; flex-direction: column;">
+                                    <input type="radio" name="event_prev_text_second" style="margin: 0px auto;" value="Металл">
+                                    <label>Металл</label>
+                                </div>
+                                <div style="display: flex; flex-direction: column;">
+                                    <input type="radio" name="event_prev_text_second" style="margin: 0px auto;" value="Стекло">
+                                    <label>Стекло</label>
+                                </div>
+                                <div style="display: flex; flex-direction: column;">
+                                    <input type="radio" name="event_prev_text_second"  style="margin: 0px auto;"value="Кожа">
+                                    <label>Кожа</label>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <div>
+                            <p style="text-align: center;">Заметки к событию (можно оставить пустым)</p>
+                            <textarea name="event_text" class="text_area_comment_profile_engraver" id="abouthimseflprofile" style="min-height:150px;" placeholder="Вводить здесь"></textarea>
+                            <input type="hidden" name="event_author_login" value="{{ current_user.login }}">
+                            <input type="submit" value="Создать событие" style="float: right;" class= "btn btn-primary">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                </div>
             </div>
         </div>
     </div>

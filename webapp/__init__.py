@@ -32,9 +32,7 @@ def create_app():
     app.config.from_pyfile('config.py')
     db.init_app(app)
     migrate = Migrate(app, db)
-    #PostgreSql
-    #con = psycopg2.connect(database="engraver", user="postgres", password="111111", host="127.0.0.1", port="5432")
-    con = psycopg2.connect(database="engraver", user="postgres", password="111111", host="127.0.0.1", port="5432")
+
     
     app.register_blueprint(all_pofile_blueprint)
     app.register_blueprint(my_profile_engraver)
@@ -47,6 +45,8 @@ def create_app():
     login_manager.login_view = 'login'
 
     ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'JPG', 'jpeg', 'gif', 'webp'])
+    con = app.config['CONNECT_DB']
+
     
     @login_manager.user_loader
     def load_user(user_id):
@@ -67,7 +67,7 @@ def create_app():
             user_name = login
             user = Users.query.filter_by(login = login).all()
             comments = Comment.query.filter(Comment.user_reciver == login).order_by(Comment.created.desc()).limit(40).all()
-            dop_info = Profile.query.filter_by(info_profile_login = login).all()
+            dop_info = Profile.query.filter_by(login = login).all()
             user_gallary = Gallary.query.filter_by(user_author_login = user_name)
             gallary = user_gallary.paginate( page = page, per_page = 6)
             return render_template('users/profile_engraver.html', info = user, user_name = user_name, comments = comments, gallary = gallary, page = page, dop_info = dop_info)
@@ -80,7 +80,8 @@ def create_app():
         user = Users.query.filter_by(login = login).all()
         comments = Comment.query.filter(Comment.user_reciver == login).order_by(Comment.created.desc()).limit(40).all()
         user_gallary = Gallary.query.filter_by(user_author_login = login)
-        dop_info = Profile.query.filter_by(info_profile_login = login).all()
+        dop_info = Profile.query.filter_by(login = login).all()
+        print(f"{dop_info}===========================================================================================")
         gallary = user_gallary.paginate( page = page, per_page = 6)
         return render_template('users/profile_engraver.html', info = user, user_name = user_name, comments = comments, gallary = gallary, page = page, dop_info = dop_info)
 
@@ -99,7 +100,7 @@ def create_app():
             link_you_vkontakte = request.form['link_you_vkontakte']
             info_profile_login = current_user.login
             owner_id = current_user.id
-            info_exist = Profile.query.filter_by(owner_id = current_user.id).first()
+            info_exist = Profile.query.filter_by(login = current_user.login).first()
             if not info_exist:
                 info_exist = Profile(owner_id = current_user.id, info_profile_login = current_user.login)
                 db.session.add(info_exist)
@@ -356,8 +357,6 @@ def create_app():
             first_name = request.form['first_name']
             second_name = request.form['second_name']
             login = request.form['login']
-            print(first_name)
-            print(type(first_name))
             password1 = request.form['password1']
             password2 = request.form['password2']
             email = request.form['email']
@@ -403,12 +402,25 @@ def create_app():
                 flash('Пароли не одинаковые')
                 return redirect(url_for('registration'))
             
-
-            new_user = Users(role = 'user', status = 'active', first_name = first_name, second_name = second_name, login = login, email = email, images = image)
-            new_user.set_password(password1)
-            db.session.add(new_user)
-            db.session.commit()
-                    
+            try:
+                new_user = Users(role = 'user', status = 'active', first_name = first_name, second_name = second_name, login = login, email = email, images = image)
+                new_user.set_password(password1)
+                db.session.add(new_user)
+                db.session.commit()
+            except:
+                flash(f"Произошла ошибка записи в таблицу User")
+                return redirect(url_for('registration'))
+            try:
+                cur = con.cursor()
+                answer = cur.execute(f"Select id from users where login = '{login}'")
+                results = cur.fetchall()
+                create_profile_for_user = Profile(first_name = first_name, second_name = second_name, login = login, info_profile_login = login, owner_id = results[0][0] )
+                db.session.add(create_profile_for_user)
+                db.session.commit()
+            except:
+                flash(f"Произошла ошибка записи в таблицу Profile")
+                return redirect(url_for('registration'))  
+            
             user = Users.query.filter(Users.login == login).first()
             if user and user.check_password(password1):
                 login_user(user)
@@ -476,6 +488,14 @@ def create_app():
                         os.mkdir(app.config['UPLOAD_AVATAR'] + '\\' + current_user.login)
                     except FileExistsError:
                         pass
+
+                    try:
+                        old_avatar = Users.query.filter_by( login = current_user.login).first()
+                        path = os.path.join(app.config['UPLOAD_AVATAR'] + '\\' + current_user.login, old_avatar.images )
+                        os.remove(path)
+                    except:
+                        pass
+
                     try:
                         Photo_editor.photo_editor_avatar(file, filename)
                         avatar_engraver = Users.query.filter_by( login = current_user.login).first()
@@ -649,8 +669,3 @@ def create_app():
         flash(f'Метод передачи файла не подходит')
         return redirect(url_for('events.topic_event',id = topic_event_id ))
     return app
-
-
-
-
-

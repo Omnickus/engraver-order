@@ -40,6 +40,9 @@ class Users(db.Model, UserMixin):
 
 class Profile(db.Model):
     id = db.Column(db.Integer , primary_key = True)
+    first_name = db.Column(db.String(50) ,unique = False, nullable = False)
+    second_name = db.Column(db.String(50),unique = False, nullable = False)
+    login = db.Column(db.String(50), unique = True, nullable = False, index = True)
     city = db.Column(db.String(250), unique = False, nullable = True)
     region = db.Column(db.String(250), unique = False, nullable = True)
     brifdate = db.Column(db.String(20), unique = False, nullable = True)  

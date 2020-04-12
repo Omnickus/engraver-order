@@ -6,11 +6,12 @@ import psycopg2
 from werkzeug.utils import secure_filename
 import os
 from datetime import datetime
+from webapp.config import CONNECT
 
 
 blueprint = Blueprint('events', __name__)
-con = psycopg2.connect(database="engraver", user="postgres", password="111111", host="127.0.0.1", port="5432")
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'JPG', 'jpeg', 'gif'])
+
 
 
 
@@ -40,9 +41,9 @@ def delete_event():
     try:
         delete_event_id = request.args.get('delete_event_id')
         print(delete_event_id)
-        cur = con.cursor()
+        cur = CONNECT.con.cursor()
         answer = cur.execute(f"Delete from Event where id  = '{delete_event_id}'")
-        con.commit()
+        CONNECT.con.commit()
         return redirect(url_for('events.all_events'))
     except:
         flash('Извините, что то пошло не так. Сообщите нам об этом')
@@ -56,7 +57,7 @@ def topic_event(id):
         page = int(page)
     else:
         page = 1
-    cur = con.cursor()
+    cur = CONNECT.con.cursor()
     if current_user.is_authenticated:
         try:
             check_participant = cur.execute(f"Select author_photo from Photo_event where author_photo = '{current_user.login}' and photo_event_id = {id} ")
@@ -66,7 +67,9 @@ def topic_event(id):
         except:
             check_participant = None
 
-    print(f"==============2{check_participant}")
+    if current_user.is_anonymous:
+        check_participant = None
+
     all_photo_event = Photo_event.query
     all_photo_event = all_photo_event.filter(Photo_event.photo_event_id == id)
     all_photo_event = all_photo_event.paginate( page = page, per_page = 12)
@@ -117,32 +120,48 @@ def add_discription_to_topic_event():
         return redirect(url_for('events.topic_event', id = event_id))
 
 
-@blueprint.route('/add-like-to-photo-event')
-def like_get_way():
-    if current_user.is_authenticated:
-        way = int(request.args.get('way'))
-        photo_id = request.args.get('photo_id')
-        like = request.args.get('like')
-        event_id = request.args.get('event_id')
+@blueprint.route('/add_like_up_to_photo_event', methods = ['POST', 'GET'])
+def add_like_up_to_photo_event():
+    if request.method == "POST" and current_user.is_authenticated:
+        event_id = request.form['event_id']
+        photo_id = request.form['photo_id']
+        way = int(request.form['way_like_up'])
+        like = request.form['like_up']
         author_like = current_user.login
-        print(f"====way={way}======photo_id={photo_id}========like={like}======event_id={event_id}")
+        print(f"=======================way={way}======photo_id={photo_id}========like={like}======event_id={event_id}")
         if way == 2010:
             add_like_event.add_like_to_photo_event(photo_id, like, author_like)
-            return redirect(url_for('events.topic_event', id = event_id ))
+            return "Лайк отправлен"
         else:
-            flash(f"Error")
-            return redirect(url_for('events.topic_event', id = event_id ))
+            return "Произошла ошибка"
     else:
-        event_id = request.args.get('event_id')
         flash(f"Только авторизованные пользователи могут аставлять лайки")
-        return redirect(url_for('events.topic_event', id = event_id ))
+        return redirect(url_for('index'))
 
+@blueprint.route('/add_like_down_to_photo_event', methods = ['POST', 'GET'])
+def add_like_down_to_photo_event():
+    if request.method == "POST" and current_user.is_authenticated:
+        event_id = request.form['event_id']
+        photo_id = request.form['photo_id']
+        way = int(request.form['way_like_down'])
+        like = request.form['like_down']
+        author_like = current_user.login
+        print(f"=======================way={way}======photo_id={photo_id}========like={like}======event_id={event_id}")
+        if way == 2010:
+            add_like_event.add_like_to_photo_event(photo_id, like, author_like)
+            return "Лайк отправлен"
+        else:
+            return "Произошла ошибка"
+    else:
+        flash(f"Только авторизованные пользователи могут аставлять лайки")
+        return redirect(url_for('index'))
 
 class add_like_event():
     def add_like_to_photo_event(photo_id, like, author_like):
         if current_user.is_authenticated:
+            print(f"========В классе========={photo_id}======={like}========={author_like}======")
             if like == 'like_up':
-                cur = con.cursor()
+                cur = CONNECT.con.cursor()
                 cur.execute(f"Select like_up, like_down from photo_event where id = {photo_id}")
                 results = cur.fetchall()
                 author_like_exist = Photo_event_like.query.filter_by(like_photo_id = photo_id, author_like = author_like).first()
@@ -150,7 +169,7 @@ class add_like_event():
                 if results[0][0] == None and results[0][1] == None:
                     print(f"===================ЗАШЕЛ В NONE")
                     cur.execute(f'Update Photo_event set like_up = 1, like_down = 0 where id = {photo_id}')
-                    con.commit()
+                    CONNECT.con.commit()
                     add_new_author_like = Photo_event_like(author_like = author_like, like_photo_id = photo_id, date_like = datetime.now(), down = 0, up = 1)
                     db.session.add(add_new_author_like)
                     db.session.commit()
@@ -162,9 +181,9 @@ class add_like_event():
                         flash(f"Вы уже проголосовали за эту запись")
                     elif answer[0][0] == 0:
                         cur.execute(f'Update Photo_event set like_up = {results[0][0] + answer[0][1]}, like_down = {results[0][1] - answer[0][1]} where id = {photo_id}')
-                        con.commit()
+                        CONNECT.con.commit()
                         cur.execute(f"Update Photo_event_like set up = 1, down = 0 where like_photo_id = {photo_id} and author_like = '{author_like}'")
-                        con.commit()
+                        CONNECT.con.commit()
                         cur.close()
                     else:
                         return 'Error'
@@ -175,17 +194,17 @@ class add_like_event():
                     cur.execute(f"Select like_up, like_down from Photo_event where id = {photo_id}")
                     results = cur.fetchall()
                     cur.execute(f'Update Photo_event set like_up = {results[0][0] + 1}, like_down = {results[0][1] - 0} where id = {photo_id}')
-                    con.commit()
+                    CONNECT.con.commit()
                     
             elif like == 'like_down':
-                cur = con.cursor()
+                cur = CONNECT.con.cursor()
                 cur.execute(f"Select like_down, like_up from Photo_event where id = {photo_id}")
                 results = cur.fetchall()
                 author_like_exist = Photo_event_like.query.filter_by(like_photo_id = photo_id, author_like = author_like).first()
                 print(f"===================={results}")
                 if results[0][0] == None and results[0][1] == None:
                     cur.execute(f'Update Photo_event set like_down = 1, like_up = 0 where id = {photo_id}')
-                    con.commit()
+                    CONNECT.con.commit()
                     add_new_author_like = Photo_event_like(author_like = author_like, like_photo_id = photo_id, date_like = datetime.now(), down = 1, up = 0)
                     db.session.add(add_new_author_like)
                     db.session.commit()
@@ -197,10 +216,10 @@ class add_like_event():
                         flash(f"Вы уже проголосовали за эту запись")
                     elif answer[0][0] == 0:
                         cur.execute(f'Update Photo_event set like_down = {results[0][0] + answer[0][1]}, like_up = {results[0][1] - answer[0][1]} where id = {photo_id}')
-                        con.commit()
+                        CONNECT.con.commit()
                         cur.execute(f"Update Photo_event_like set up = 0, down = 1 where like_photo_id = {photo_id} and author_like = '{author_like}'")
                         cur.close()
-                        con.commit()
+                        CONNECT.con.commit()
                 else:
                     add_new_author_like = Photo_event_like(author_like = author_like, like_photo_id = photo_id, date_like = datetime.now(), down = 1, up = 0)
                     db.session.add(add_new_author_like)
@@ -208,7 +227,7 @@ class add_like_event():
                     cur.execute(f"Select like_up, like_down from Photo_event where id = {photo_id}")
                     results = cur.fetchall()
                     cur.execute(f'Update Photo_event set like_up = {results[0][0] - 0}, like_down = {results[0][1] + 1} where id = {photo_id}')
-                    con.commit()
+                    CONNECT.con.commit()
             else:
                 return 'Erorr'
         else:

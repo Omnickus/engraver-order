@@ -9,7 +9,7 @@
         <div style="width:100%;padding-left: 0px;padding-right: 0px;padding-bottom: 0px; background-color: rgba(53, 216, 140, 0); margin-top: 0px;">
             <div class="col media_width" style="border: 0px solid rgba(95, 121, 146, 0.699); width: 100%;display: flex; justify-content: space-between; margin: 0px auto; margin: 0px;padding-left: 0px !important; padding-right:0px;">
                 <div class="row" id="avatar_frame_wrapper">
-                    <div class="div_avatar_profile_engraver" style="border:0px solid rgb(153, 0, 145);background-color: #343A40;">
+                    <div class="div_avatar_profile_engraver">
                         <img class="avatar_profile_engraver" src= "{{ url_for('static', filename = 'images/main_page_profile_engraver_avatar/' + info_user.login + '/' + info_user.images)  }} ">
                         <div class="block_form_engraver" style="border:0px solid green;">
                             {% if current_user.login == user_name %}
@@ -135,10 +135,10 @@
             <!--ОТПРАВКА КОММЕНТАРИЯ-->
             <div class="row" style="width:100%;margin:0px auto;background-color: rgba(231, 203, 79, 0);margin-bottom: 30px;">
                 <form class="form_comment_profile_engraver" id="ajax_text_area_comment_profile_engraver">
-                        <textarea name="text" required placeholder='Вы можете оставить свой отзыв' class="text_area_comment_discuss"></textarea>
-                        <input type="hidden" name = 'author_engraver' value="{{ current_user.login }}">
-                        <input type="hidden" name = 'recipient_engraver' value="{{ user_name }}">
-                        <input style="float: right;" id = "send" type="button" value="Отправить" class="button_discuss_comment">
+                    <textarea name="text" required placeholder='Вы можете оставить свой отзыв' class="text_area_comment_discuss"></textarea>
+                    <input type="hidden" name = 'author_engraver' value="{{ current_user.login }}">
+                    <input type="hidden" name = 'recipient_engraver' value="{{ user_name }}">
+                    <input style="float: right;" id ="send" type="button" value="Отправить" class="button_discuss_comment">
                 </form>
                 <div id="result"></div>
             </div>
