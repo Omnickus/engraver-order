@@ -35,7 +35,7 @@ postgres==3.0.0
 psycopg2==2.8.4
 psycopg2-binary==2.8.4
 psycopg2-pool==1.1
-py==1.8.1
+py==1.10.0
 pyparsing==2.4.6
 pytest==5.3.3
 pytest-shutil==1.7.0
